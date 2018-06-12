@@ -3,6 +3,9 @@ package Model;
 import algorithms.search.Solution;
 import javafx.scene.input.KeyCode;
 
+import java.io.File;
+
+
 public interface IModel {
     void generateMaze(int width, int height);
 
@@ -31,5 +34,7 @@ public interface IModel {
     int getStartCharacterPostionRow();
 
     void saveMaze();
+
+    void loadMaze(File file);
 }
 

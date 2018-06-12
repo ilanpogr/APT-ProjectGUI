@@ -157,34 +157,26 @@ public class Model extends Observable implements IModel {
         return maze.getGoalPosition().getColumnIndex();
     }
 
-    private int characterStartPositionRow() {  return maze.getStartPosition().getRowIndex(); }
+    private int characterStartPositionRow() {
+        return maze.getStartPosition().getRowIndex();
+    }
 
-    private int characterStartPositionColumn() { return maze.getStartPosition().getColumnIndex(); }
+    private int characterStartPositionColumn() {
+        return maze.getStartPosition().getColumnIndex();
+    }
 
     @Override
     public int[][] getMaze() {
         return maze.getGrid();
     }
 
-    private boolean checkIfCanMoveDiagonal(int num) {
-        /**
-         * ADD CONDITIONS!!!!!
-         */
-        switch (num) {
-            case 7:
-                if (characterPositionRow - 1 >= 0 && characterPositionColumn - 1 >= 0 /**NEED ENOTHER CONDITIONS*/)
-
-                return true;
-            case 9:
-
-                return true;
-            case 3:
-
-                return true;
-            case 1:
-
-                return true;
-        }
+    private boolean checkIfCanMoveDiagonal(int DeltaX, int DeltaY) {
+        if (characterPositionRow + DeltaY >= 0 && characterPositionRow + DeltaY < maze.getGrid().length
+                && characterPositionColumn + DeltaX >= 0 && characterPositionColumn + DeltaX < maze.getGrid()[0].length
+                && maze.getGrid()[characterPositionRow + DeltaY][characterPositionColumn + DeltaX] == 0
+                && (maze.getGrid()[characterPositionRow][characterPositionColumn + DeltaX] == 0
+                || maze.getGrid()[characterPositionRow + DeltaY][characterPositionColumn] == 0))
+            return true;
         return false;
     }
 
@@ -192,54 +184,56 @@ public class Model extends Observable implements IModel {
     public void moveCharacter(KeyCode movement) {
         switch (movement) {
             case NUMPAD7:
-                if (checkIfCanMoveDiagonal(7)) {
+                if (checkIfCanMoveDiagonal(-1, -1)) {
                     characterPositionRow--;
                     characterPositionColumn--;
                 }
                 break;
             case NUMPAD9:
-                if (checkIfCanMoveDiagonal(9)) {
+                if (checkIfCanMoveDiagonal(1, -1)) {
                     characterPositionRow--;
                     characterPositionColumn++;
 
                 }
                 break;
             case NUMPAD1:
-                if (checkIfCanMoveDiagonal(1)) {
+                if (checkIfCanMoveDiagonal(-1, 1)) {
                     characterPositionRow++;
                     characterPositionColumn--;
 
                 }
+                break;
             case NUMPAD3:
-                if (checkIfCanMoveDiagonal(3)) {
+                if (checkIfCanMoveDiagonal(1, 1)) {
                     characterPositionRow++;
                     characterPositionColumn++;
                 }
+                break;
             case UP:
             case W:
             case NUMPAD8:
-                if (characterPositionRow - 1 >= 0 && (maze.getGrid()[getCharacterPositionRow() - 1][getCharacterPositionColumn()] != 1)) {
+                if (checkIfCanMoveDiagonal(0, -1)) {
                     characterPositionRow--;
                 }
                 break;
             case DOWN:
             case S:
             case NUMPAD2:
-                if (characterPositionRow + 1 <= maze.getGrid().length - 1 && (maze.getGrid()[getCharacterPositionRow() + 1][getCharacterPositionColumn()] != 1)) {
+                if (checkIfCanMoveDiagonal(0, 1)) {
                     characterPositionRow++;
                 }
                 break;
             case RIGHT:
             case D:
             case NUMPAD6:
-                if (characterPositionColumn + 1 <= maze.getGrid()[0].length - 1 && (maze.getGrid()[getCharacterPositionRow()][getCharacterPositionColumn() + 1] != 1)) {
+                if (checkIfCanMoveDiagonal(1, 0)) {
                     characterPositionColumn++;
                 }
                 break;
             case LEFT:
             case A:
             case NUMPAD4:
-                if (characterPositionColumn - 1 >= 0 && (maze.getGrid()[getCharacterPositionRow()][getCharacterPositionColumn() - 1] != 1)) {
+                if (checkIfCanMoveDiagonal(-1, 0)) {
                     characterPositionColumn--;
                 }
                 break;
@@ -298,6 +292,26 @@ public class Model extends Observable implements IModel {
         setChanged();
         notifyObservers("mazeGenerator");
     }
+
+    public void loadMaze(File file) {
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(file.getAbsoluteFile()));
+            maze = (Maze) in.readObject();
+            characterPositionRow = maze.getStartPosition().getRowIndex();
+            characterPositionColumn = maze.getStartPosition().getColumnIndex();
+            characterGoalPositionColumn = maze.getGoalPosition().getColumnIndex();
+            characterGoalPositionRow = maze.getGoalPosition().getRowIndex();
+            characterStartPositionColumn = maze.getStartPosition().getColumnIndex();
+            characterStartPositionRow = maze.getStartPosition().getRowIndex();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        setChanged();
+        notifyObservers("mazeGenerator");
+    }
+
 
     @Override
     public int getStartCharacterPostionColumn() {

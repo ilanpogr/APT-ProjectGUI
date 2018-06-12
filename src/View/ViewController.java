@@ -21,6 +21,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -234,6 +235,21 @@ public class ViewController implements Observer, IView {
     }
 
     public void loadGame(ActionEvent actionEvent) {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Load Maze");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("dat files", "*.dat"));
+        fc.setInitialDirectory(new File("src/View/resources/savedGames"));
+        //showing the file chooser
+        File file = fc.showOpenDialog(null);
+
+        // checking that a file was
+        // chosen by the user
+        if (file != null) {
+            viewModel.loadGame(file);
+            // enabling saveMI
+            saveMenu.setDisable(false);
+            btn_solveMaze.setDisable(false);
+        }
     }
 
     public void saveMaze(ActionEvent actionEvent) {

@@ -9,6 +9,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 
+import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -113,4 +114,6 @@ public class ViewModel extends Observable implements Observer {
     public void saveMaze() {
         model.saveMaze();
     }
+
+    public void loadGame(File file){ model.loadMaze(file);}
 }
