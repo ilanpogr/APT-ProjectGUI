@@ -189,14 +189,16 @@ public class ViewController implements Observer, IView {
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                root.setPrefWidth(newSceneWidth.doubleValue() * 0.7);
+                root.setPrefWidth(newSceneWidth.doubleValue());
+                mazeDisplayer.setWidth(newSceneWidth.doubleValue());
                 mazeDisplayer.redraw();
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                root.setPrefHeight(newSceneHeight.doubleValue() * 0.8);
+                root.setPrefHeight(newSceneHeight.doubleValue());
+                mazeDisplayer.setHeight(newSceneHeight.doubleValue() - root.getTop().getLayoutBounds().getHeight() - root.getBottom().getLayoutBounds().getHeight());
                 mazeDisplayer.redraw();
             }
         });
