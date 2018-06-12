@@ -104,12 +104,12 @@ public class View implements Observer, IView {
         int characterPositionRow = viewModel.getCharacterPositionRow();
         int characterPositionColumn = viewModel.getCharacterPositionColumn();
         mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
+        int CharacterStratPositionRow = viewModel.getCharacterStartPositionRow();
+        int CharacterStartPointColumn = viewModel.getCharacterStartPositionColumn();
+        mazeDisplayer.setCharacterStratPosition(CharacterStratPositionRow, CharacterStartPointColumn);
         int characterGoalRow = viewModel.getCharacterGoalPositionRow();
         int characterGoalColumn = viewModel.getCharacterGoalPositionColumn();
         mazeDisplayer.setCharacterGoalPosition(characterGoalRow, characterGoalColumn);
-        int CharacterStratPositionRow = viewModel.getCharacterStartPositionRow();
-        int CharacterStartPointColumn = viewModel.getCharacterStartPositionColumn();
-        mazeDisplayer.setCharacterStratPosition(CharacterStratPositionRow, CharacterStratPositionRow);
         btn_generateMaze.setDisable(false);
     }
 

@@ -37,6 +37,9 @@ public class Model extends Observable implements IModel {
     private int characterPositionRow;
     private int characterPositionColumn;
 
+    private int characterStartPositionRow;
+    private int characterStartPositionColumn;
+
     private int characterGoalPositionRow;
     private int characterGoalPositionColumn;
 
@@ -93,6 +96,8 @@ public class Model extends Observable implements IModel {
                         maze = new Maze(decompressedMaze);
                         characterPositionRow = maze.getStartPosition().getRowIndex();
                         characterPositionColumn = maze.getStartPosition().getColumnIndex();
+                        characterStartPositionRow = maze.getStartPosition().getRowIndex();
+                        characterStartPositionColumn = maze.getStartPosition().getColumnIndex();
                         characterGoalPositionRow = maze.getGoalPosition().getRowIndex();
                         characterGoalPositionColumn = maze.getGoalPosition().getColumnIndex();
 //                        maze.print();
@@ -266,12 +271,12 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
-    public int getStartCharacterPostionColumn() {
-        return characterStartPositionColumn();
+    public int getStartCharacterPostionRow() {
+        return characterStartPositionRow;
     }
 
     @Override
-    public int getStartCharacterPostionRow() {
-        return characterStartPositionRow();
+    public int getStartCharacterPostionColumn() {
+        return characterStartPositionColumn;
     }
 }

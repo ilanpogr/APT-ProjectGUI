@@ -20,11 +20,15 @@ public class ViewModel extends Observable implements Observer {
     private int characterPositionColumnIndex;
     private int characterGoalPositionRowIndex;
     private int characterGoalPositionColumnIndex;
+    private int characterStartPositionRowIndex;
+    private int characterStartPositionColumnIndex;
 
     public StringProperty characterPositionRow = new SimpleStringProperty("1"); //For Binding
     public StringProperty characterPositionColumn = new SimpleStringProperty("1"); //For Binding
     public StringProperty characterGoalPositionRow = new SimpleStringProperty("1"); //For Binding
     public StringProperty characterGoalPositionColumn = new SimpleStringProperty("1"); //For Binding
+    public StringProperty characterStartPositionRow = new SimpleStringProperty("1"); //For Binding
+    public StringProperty characterStartPositionColumn = new SimpleStringProperty("1"); //For Binding
 
     public ViewModel(IModel model){
         this.model = model;
@@ -33,6 +37,10 @@ public class ViewModel extends Observable implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o==model){
+            characterStartPositionRowIndex = model.getStartCharacterPostionRow();
+            characterStartPositionRow.set(characterStartPositionRowIndex + "");
+            characterStartPositionColumnIndex = model.getStartCharacterPostionColumn();
+            characterStartPositionColumn.set(characterStartPositionColumnIndex + "");
             characterPositionRowIndex = model.getCharacterPositionRow();
             characterPositionRow.set(characterPositionRowIndex + "");
             characterPositionColumnIndex = model.getCharacterPositionColumn();

@@ -44,7 +44,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-             <MazeDisplayer fx:id="mazeDisplayer" height="644.0" imageFileNameCharacter="resources/Images/pickle.png" imageFileNameGoal="resources/Images/Egg.png" imageFileNameSolution="resources/Images/goldCoin.png" imageFileNameWall="resources/Images/spikes.png" onMouseDragged="#mouseMovement" width="800.0" />
+             <MazeDisplayer fx:id="mazeDisplayer" height="644.0" imageFileNameCharacter="resources/Images/pickle.png" imageFileStartPoint="resources/Images/road-sign.png" imageFileNameGoal="resources/Images/Egg.png" imageFileNameSolution="resources/Images/goldCoin.png" imageFileNameWall="resources/Images/spikes.png" onMouseDragged="#mouseMovement" width="800.0" />
          </children></Pane>
    </center>
    <bottom>

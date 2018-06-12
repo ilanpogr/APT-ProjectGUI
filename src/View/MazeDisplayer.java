@@ -92,7 +92,7 @@ public class MazeDisplayer extends Canvas {
                 /**
                  * NEED TO BE CHECKED START POINT
                  */
-//                Image startPointImage = new Image(new FileInputStream(ImageFileStartPoint.get()));
+                Image startPointImage = new Image(new FileInputStream(ImageFileStartPoint.get()));
 
 
                 GraphicsContext gc = getGraphicsContext2D();
@@ -108,7 +108,7 @@ public class MazeDisplayer extends Canvas {
                 }
 
                 //Draw Character
-//                gc.drawImage(startPointImage,CharacterStratPositionColumn * cellWidth, CharacterStratPositionRow * cellHeight ,cellWidth, cellHeight);
+                gc.drawImage(startPointImage,CharacterStratPositionColumn * cellWidth, CharacterStratPositionRow * cellHeight ,cellWidth, cellHeight);
                 gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
                 gc.drawImage(characterGoalImage, characterGoalPositionColumn * cellWidth, characterGoalPositionRow * cellHeight, cellWidth, cellHeight);
 
@@ -119,7 +119,7 @@ public class MazeDisplayer extends Canvas {
     }
 
     //region Properties
-//    private StringProperty ImageFileStartPoint = new SimpleStringProperty();
+    private StringProperty ImageFileStartPoint = new SimpleStringProperty();
     private StringProperty ImageFileNameWall = new SimpleStringProperty();
     private StringProperty ImageFileNameCharacter = new SimpleStringProperty();
     private StringProperty ImageFileNameGoal = new SimpleStringProperty();
@@ -158,13 +158,15 @@ public class MazeDisplayer extends Canvas {
         this.ImageFileNameWall.set(imageFileNameWall);
     }
 
+    public String getImageFileStartPoint() { return ImageFileStartPoint.get(); }
+
+    public void setImageFileStartPoint(String ImageFileStartPoint) { this.ImageFileStartPoint.set(ImageFileStartPoint); }
+
     public String getImageFileNameCharacter() {
         return ImageFileNameCharacter.get();
     }
 
-    public void setImageFileNameCharacter(String imageFileNameCharacter) {
-        this.ImageFileNameCharacter.set(imageFileNameCharacter);
-    }
+    public void setImageFileNameCharacter(String imageFileNameCharacter) { this.ImageFileNameCharacter.set(imageFileNameCharacter); }
 
     public String getImageFileNameGoal() {
         return ImageFileNameGoal.get();
@@ -178,17 +180,7 @@ public class MazeDisplayer extends Canvas {
         return ImageFileNameSolution.get();
     }
 
-//    public String getImageFileStartPoint() {
-//        return ImageFileStartPoint.get();
-//    }
-
-    public void setImageFileStartPoint(String ImageFileStartPoint) {
-        this.ImageFileNameGoal.set(ImageFileStartPoint);
-    }
-
-    public void setImageFileNameSolution(String imageFileNameSolution) {
-        this.ImageFileNameSolution.set(imageFileNameSolution);
-    }
+    public void setImageFileNameSolution(String imageFileNameSolution) { this.ImageFileNameSolution.set(imageFileNameSolution); }
 
     //endregion
 
