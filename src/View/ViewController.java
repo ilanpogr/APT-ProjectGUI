@@ -80,7 +80,7 @@ public class ViewController implements Observer, IView {
             if (arg.equals("mazeGenerator")) {
                 displayMaze(viewModel.getMaze());
             }
-            if(arg.equals("movement")){
+            if (arg.equals("movement")) {
 
             }
             if (arg.equals("movement and endGame")) {
@@ -159,9 +159,14 @@ public class ViewController implements Observer, IView {
     }
 
     public void KeyPressed(KeyEvent keyEvent) {
-        if (!mazeDisplayer.getFinished())
-        viewModel.moveCharacter(keyEvent.getCode());
-        keyEvent.consume();
+        try {
+            viewModel.getMaze();
+            if (!mazeDisplayer.getFinished())
+                viewModel.moveCharacter(keyEvent.getCode());
+            keyEvent.consume();
+        } catch (NullPointerException e){
+            keyEvent.consume();
+        }
     }
 
     //region String Property for Binding
@@ -220,16 +225,17 @@ public class ViewController implements Observer, IView {
     }
 
     public void volumeSwitch(ActionEvent actionEvent) {
+
     }
 
     public void Help(ActionEvent actionEvent) {
     }
 
     public void CloseGame(ActionEvent actionEvent) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure you want to exit?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to exit?");
         alert.setTitle("Confirm Exit");
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             Platform.exit();
             System.exit(0);
         } else {
@@ -244,8 +250,7 @@ public class ViewController implements Observer, IView {
         try {
             viewModel.getMaze();
             viewModel.saveMaze();
-        }
-        catch (NullPointerException e){
+        } catch (NullPointerException e) {
             showAlert("Error", "No maze to save", "Don't click on every button you see...\nGenerate a maze if you wish to save one");
         }
     }
@@ -258,7 +263,7 @@ public class ViewController implements Observer, IView {
         if (mazeDisplayer != null) {
             int mouseX = (int) ((mouseEvent.getX()) / (mazeDisplayer.getWidth() / viewModel.getMaze()[0].length));
             int mouseY = (int) ((mouseEvent.getY()) / (mazeDisplayer.getHeight() / viewModel.getMaze().length));
-            if(!mazeDisplayer.getFinished()) {
+            if (!mazeDisplayer.getFinished()) {
                 if (mouseY < viewModel.getCharacterPositionRow()) {
                     viewModel.moveCharacter(KeyCode.UP);
                 }
@@ -277,6 +282,27 @@ public class ViewController implements Observer, IView {
 
 
     public void zoomInOut(ScrollEvent scrollEvent) {
+        try {
+            viewModel.getMaze();
+            double width = mazeDisplayer.getWidth();
+            double height = mazeDisplayer.getHeight();
+            AnimatedZoomOperator zoomOperator = new AnimatedZoomOperator();
+            double zoomFactor;
+            if (scrollEvent.isControlDown()) {
+                zoomFactor = 1.5;
+                double deltaY = scrollEvent.getDeltaY();
+                if (deltaY < 0) {
+                    zoomFactor = 1/ zoomFactor;
+                }
+//            mazeDisplayer.setScaleX(mazeDisplayer.getScaleX() * zoomFactor);
+//            mazeDisplayer.setScaleY(mazeDisplayer.getScaleY() * zoomFactor);
+                zoomOperator.zoom(mazeDisplayer, zoomFactor, scrollEvent.getSceneX(), scrollEvent.getSceneY());
+                scrollEvent.consume();
+            }
+        } catch (NullPointerException e){
+            scrollEvent.consume();
+        }
+
     }
 
     //endregion
