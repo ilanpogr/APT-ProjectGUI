@@ -28,7 +28,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
-public class View implements Observer, IView {
+public class ViewController implements Observer, IView {
 
     @FXML
     private ViewModel viewModel;

@@ -31,7 +31,7 @@ public class Main extends Application {
 //        scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
         primaryStage.setScene(scene);
         //--------------
-        View view = fxmlLoader.getController();
+        ViewController view = fxmlLoader.getController();
         view.setResizeEvent(scene);
         view.setViewModel(viewModel);
         viewModel.addObserver(view);

@@ -20,7 +20,7 @@
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 <BorderPane onKeyPressed="#KeyPressed" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="View.View">
+            fx:controller="View.ViewController">
     <left>
         <VBox prefHeight="200.0" prefWidth="178.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
