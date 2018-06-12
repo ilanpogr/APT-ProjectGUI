@@ -33,7 +33,9 @@ import java.util.ResourceBundle;
 
 public class ViewController implements Observer, IView {
 
+
     @FXML
+    private BorderPane root;
     private ViewModel viewModel;
     public MenuItem loadMenu;
     public MenuItem saveMenu;
@@ -184,18 +186,18 @@ public class ViewController implements Observer, IView {
     }
 
     public void setResizeEvent(Scene scene) {
-        long width = 0;
-        long height = 0;
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                System.out.println("Width: " + newSceneWidth);
+                root.setPrefWidth(newSceneWidth.doubleValue() * 0.7);
+                mazeDisplayer.redraw();
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                System.out.println("Height: " + newSceneHeight);
+                root.setPrefHeight(newSceneHeight.doubleValue() * 0.8);
+                mazeDisplayer.redraw();
             }
         });
     }
