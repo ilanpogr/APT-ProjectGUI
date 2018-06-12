@@ -283,7 +283,7 @@ public class Model extends Observable implements IModel {
         fc.setTitle("Save Maze");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("dat files", "*.dat"));
         fc.setInitialFileName("maze.dat");
-        fc.setInitialDirectory(new File("src/View/resources/savedGames"));
+        fc.setInitialDirectory(new File("src/View/Resources/savedGames"));
         File file = fc.showSaveDialog(null);
         if (file != null) {
             try {
