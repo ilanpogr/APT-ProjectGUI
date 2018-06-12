@@ -2,6 +2,7 @@ package View;
 
 import ViewModel.ViewModel;
 import algorithms.search.Solution;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -17,6 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
@@ -26,6 +28,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ViewController implements Observer, IView {
@@ -137,6 +140,7 @@ public class ViewController implements Observer, IView {
                 viewModel.getMaze();
                 btn_solveMaze.setDisable(true);
                 viewModel.solveMaze();
+                btn_solveMaze.setDisable(false);
             } catch (NullPointerException e) {
                 showAlert("Error", "No maze to solve", "Don't click on every button you see...\nGenerate a maze if you wish to solve");
             }
@@ -218,15 +222,32 @@ public class ViewController implements Observer, IView {
     }
 
     public void CloseGame(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure you want to exit?");
+        alert.setTitle("Confirm Exit");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            Platform.exit();
+            System.exit(0);
+        } else {
+            actionEvent.consume();
+        }
     }
 
     public void loadGame(ActionEvent actionEvent) {
     }
 
     public void saveMaze(ActionEvent actionEvent) {
+        try {
+            viewModel.getMaze();
+            viewModel.saveMaze();
+        }
+        catch (NullPointerException e){
+            showAlert("Error", "No maze to save", "Don't click on every button you see...\nGenerate a maze if you wish to save one");
+        }
     }
 
     public void newMaze(ActionEvent actionEvent) {
+        generateMaze();
     }
 
     public void mouseMovement(MouseEvent mouseEvent) {

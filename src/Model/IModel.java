@@ -29,5 +29,7 @@ public interface IModel {
     int getStartCharacterPostionColumn();
 
     int getStartCharacterPostionRow();
+
+    void saveMaze();
 }
 

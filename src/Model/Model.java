@@ -12,6 +12,7 @@ import algorithms.search.Solution;
 import algorithms.mazeGenerators.Maze;
 import com.sun.org.apache.xpath.internal.operations.String;
 import javafx.scene.input.KeyCode;
+import javafx.stage.FileChooser;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -171,6 +172,7 @@ public class Model extends Observable implements IModel {
          */
         switch (num) {
             case 7:
+                if (characterPositionRow - 1 >= 0 && characterPositionColumn - 1 >= 0 /**NEED ENOTHER CONDITIONS*/)
 
                 return true;
             case 9:
@@ -273,6 +275,28 @@ public class Model extends Observable implements IModel {
     @Override
     public int getStartCharacterPostionRow() {
         return characterStartPositionRow;
+    }
+
+    @Override
+    public void saveMaze() {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Save Maze");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("dat files", "*.dat"));
+        fc.setInitialFileName("maze.dat");
+        fc.setInitialDirectory(new File("src/View/resources/savedGames"));
+        File file = fc.showSaveDialog(null);
+        if (file != null) {
+            try {
+                ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file.getAbsoluteFile()));
+                this.maze.setStartPos(getCharacterPositionRow(), getGoalCharacterColumn());
+                out.writeObject(maze);
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        setChanged();
+        notifyObservers("mazeGenerator");
     }
 
     @Override

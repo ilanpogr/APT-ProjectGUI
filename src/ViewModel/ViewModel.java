@@ -109,4 +109,8 @@ public class ViewModel extends Observable implements Observer {
     public int getCharacterStartPositionRow() {
         return model.getStartCharacterPostionRow();
     }
+
+    public void saveMaze() {
+        model.saveMaze();
+    }
 }
