@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -35,6 +36,7 @@ public class Main extends Application {
         view.setResizeEvent(scene);
         view.setViewModel(viewModel);
         viewModel.addObserver(view);
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> view.KeyPressed(event));
         //--------------
         SetStageCloseEvent(primaryStage);
         primaryStage.show();

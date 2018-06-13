@@ -32,9 +32,9 @@
          <children>
             <Label text="Maze Rows:" GridPane.rowIndex="3" />
             <Label text="Maze Columns:" GridPane.rowIndex="4" />
-            <TextField fx:id="txtfld_columnsNum" alignment="CENTER" text="20" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="txtfld_rowsNum" alignment="CENTER" text="20" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button fx:id="btn_generateMaze" mnemonicParsing="false" onAction="#generateMaze" text="PLAY" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <TextField fx:id="txt_columns" alignment="CENTER" text="20" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="txt_rows" alignment="CENTER" text="20" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="btn_play" mnemonicParsing="false" onAction="#generateMaze" text="PLAY" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="25.0" />
                </GridPane.margin>

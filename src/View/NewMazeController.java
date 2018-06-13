@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class NewMazeController {
     public TextField txt_columns;
@@ -19,6 +20,7 @@ public class NewMazeController {
     private MazeDisplayer mazeDisplayer;
     private ViewController viewController;
     private ViewModel viewModel;
+    private Stage stage;
 
 
 
@@ -26,6 +28,8 @@ public class NewMazeController {
         this.viewModel = viewModel;
 //        bindProperties(viewModel);
     }
+
+    public void setStage(Stage stage){ this.stage = stage;}
 
     public void setMazeDisplayer(MazeDisplayer mazeDisplayer){ this.mazeDisplayer = mazeDisplayer; }
 
@@ -36,15 +40,16 @@ public class NewMazeController {
     public void generateMaze() {
         try {
 //            mazeDisplayer.setMaze(null);
-            mazeDisplayer.setFinished(false);
-            int height = Integer.valueOf(txt_rows.getText());
-            int width = Integer.valueOf(txt_columns.getText());
-            if (height <= 1 || width <= 1) {
+            int rows = Integer.valueOf(txt_rows.getText());
+            int cols = Integer.valueOf(txt_columns.getText());
+            if (rows <= 1 || cols <= 1) {
                 viewController.showAlert("Error", "Wrong Input", "Height and width should be greater than 1");
             } else {
                 viewController.btn_solveMaze.setDisable(false);
 //                btn_generateMaze.setDisable(true);
-                viewModel.generateMaze(width, height);
+                mazeDisplayer.setFinished(false);
+                viewModel.generateMaze(rows, cols);
+                stage.close();
             }
         } catch (Exception e) {
             viewController.showAlert("Error", "Wrong Input", "Check input parameters");
@@ -52,6 +57,6 @@ public class NewMazeController {
     }
 
     public void cancel(ActionEvent actionEvent) {
-        actionEvent.consume();
+        stage.close();
     }
 }

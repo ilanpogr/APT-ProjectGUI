@@ -294,14 +294,24 @@ public class ViewController implements Observer, IView {
     }
 
     public void newMaze(ActionEvent actionEvent) throws IOException {
-//        Parent root = FXMLLoader.load(getClass().getResource("NewMaze.fxml"));
-//        final Scene scene = new Scene(root);
-//        final Stage stage = new Stage();
-//        stage.setTitle("New Maze");
-//        stage.setScene(scene);
-//        stage.show();
-//        stage.setResizable(false);
-//        stage.centerOnScreen();
+        try{
+            Stage stage = new Stage();
+            stage.setTitle("New Maze");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("NewMaze.fxml").openStream());
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+            stage.setScene(scene);
+            NewMazeController newMazeController = fxmlLoader.getController();
+            newMazeController.setStage(stage);
+            newMazeController.setViewController(this);
+            newMazeController.setViewModel(viewModel);
+            newMazeController.setMazeDisplayer(mazeDisplayer);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        }catch (Exception e){
+            actionEvent.consume();
+        }
     }
 
     public void mouseMovement(MouseEvent mouseEvent) {
