@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -48,12 +47,7 @@
                </GridPane.margin>
             </Button>
             <Label text="Character" GridPane.rowIndex="1" />
-            <ChoiceBox fx:id="choice_character" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ImageView fx:id="image_character" fitHeight="117.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="30.0" />
-               </GridPane.margin>
-            </ImageView>
+            <ChoiceBox fx:id="choice_character" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>
