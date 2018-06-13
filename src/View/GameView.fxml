@@ -10,6 +10,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -55,7 +56,7 @@
             <Label contentDisplay="RIGHT" text="Columns:" />
             <TextField fx:id="txtfld_columnsNum" prefHeight="20.0" prefWidth="53.0" />
             <Region prefHeight="20.0" prefWidth="15.0" />
-            <Button fx:id="btn_generateMaze" mnemonicParsing="false" onAction="#generateMaze" prefHeight="15.0" prefWidth="84.0" text="Generate" />
+            <Button fx:id="btn_generateMaze" mnemonicParsing="false" onAction="#generateMaze" onKeyPressed="#generateMaze" prefHeight="15.0" prefWidth="84.0" text="Generate" />
             <Region prefHeight="10.0" prefWidth="15.0" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <Region prefHeight="20.0" prefWidth="15.0" />
@@ -63,8 +64,7 @@
             <Region prefHeight="10.0" prefWidth="75.0" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <Region prefHeight="10.0" prefWidth="75.0" />
-            <Button fx:id="speakerImage" mnemonicParsing="false" onAction="#volumeSwitch" prefHeight="26.0" prefWidth="29.0">
-            </Button>
+            <ToggleButton fx:id="speakerImage" contentDisplay="CENTER" mnemonicParsing="false" onAction="#volumeSwitch" textOverrun="CENTER_ELLIPSIS" HBox.hgrow="ALWAYS" />
             <Region prefHeight="10.0" prefWidth="10.0" />
                 <Slider fx:id="volumeSlider" prefHeight="16.0" prefWidth="200.0">
                <HBox.margin>

@@ -124,7 +124,8 @@ public class Model extends Observable implements IModel {
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
-                        maze.setStartPos(characterPositionRow, characterPositionColumn);
+                        Position pos = new Position(characterPositionRow, characterPositionColumn);
+                        maze.setStartPos(pos.getRowIndex(),pos.getColumnIndex());
                         toServer.writeObject(maze);
                         toServer.flush();
                         mazeSolution = (Solution) fromServer.readObject();

@@ -3,6 +3,7 @@ package View;
 import ViewModel.ViewModel;
 import algorithms.search.Solution;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -38,7 +39,7 @@ import java.util.Observer;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ViewController implements Observer, IView {
+public class ViewController implements Observer, IView, Initializable {
 
 
     @FXML
@@ -47,7 +48,7 @@ public class ViewController implements Observer, IView {
     public MenuItem loadMenu;
     public MenuItem saveMenu;
     public MenuItem newMenu;
-    public Button speakerImage;
+    public ToggleButton speakerImage;
     public Slider volumeSlider;
     public MenuItem propertiesMenu;
     public MenuItem mnu_About;
@@ -64,8 +65,11 @@ public class ViewController implements Observer, IView {
     public ChoiceBox choice_character;
     public ImageView image_character;
 
-    private MediaPlayer song;
-    private Media media;
+    private String solveCondition = "start";
+
+    private Media song;
+    private MediaPlayer media;
+    private double volume;
 
     public void setViewModel(ViewModel viewModel) {
         this.viewModel = viewModel;
@@ -236,6 +240,13 @@ public class ViewController implements Observer, IView {
     }
 
     public void volumeSwitch(ActionEvent actionEvent) {
+        if (speakerImage.isSelected()){
+            media.setVolume(0);
+//            speakerImage.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("src/View/Resources/Images/speakerOn.png"))));
+        }
+        else {
+            media.setVolume(volume);
+        }
 
     }
 
@@ -270,7 +281,7 @@ public class ViewController implements Observer, IView {
         FileChooser fc = new FileChooser();
         fc.setTitle("Load Maze");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("dat files", "*.dat"));
-        fc.setInitialDirectory(new File("src/View/resources/savedGames"));
+        fc.setInitialDirectory(new File("src/View/Resources/savedGames"));
         //showing the file chooser
         File file = fc.showOpenDialog(null);
 
@@ -346,6 +357,29 @@ public class ViewController implements Observer, IView {
         } catch (NullPointerException e) {
             scrollEvent.consume();
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        String path = new File("src/View/Resources/Sounds/Puzzle-Game.mp3").getAbsolutePath();
+        song = new Media(new File(path).toURI().toString());
+        media = new MediaPlayer(song);
+        media.setAutoPlay(true);
+        media.setVolume(0.3);
+//        speakerImage.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("src/View/Resources/Images/speakerOn.png"))));
+
+        volumeSlider.setValue(media.getVolume() * 100);
+        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(javafx.beans.Observable observable) {
+                media.setVolume(volumeSlider.getValue() / 100);
+                volume = volumeSlider.getValue();
+            }
+        });
+
+        mazeDisplayer.addEventFilter(MouseEvent.ANY, (e) -> mazeDisplayer.requestFocus());
+        btn_solveMaze.setDisable(true);
+        saveMenu.setDisable(true);
     }
 
     //endregion
