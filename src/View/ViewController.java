@@ -332,8 +332,6 @@ public class ViewController implements Observer, IView {
     public void zoomInOut(ScrollEvent scrollEvent) {
         try {
             viewModel.getMaze();
-            double width = mazeDisplayer.getWidth();
-            double height = mazeDisplayer.getHeight();
             AnimatedZoomOperator zoomOperator = new AnimatedZoomOperator();
             double zoomFactor;
             if (scrollEvent.isControlDown()) {
@@ -342,15 +340,12 @@ public class ViewController implements Observer, IView {
                 if (deltaY < 0) {
                     zoomFactor = 1 / zoomFactor;
                 }
-//            mazeDisplayer.setScaleX(mazeDisplayer.getScaleX() * zoomFactor);
-//            mazeDisplayer.setScaleY(mazeDisplayer.getScaleY() * zoomFactor);
                 zoomOperator.zoom(mazeDisplayer, zoomFactor, scrollEvent.getSceneX(), scrollEvent.getSceneY());
                 scrollEvent.consume();
             }
         } catch (NullPointerException e) {
             scrollEvent.consume();
         }
-
     }
 
     //endregion
