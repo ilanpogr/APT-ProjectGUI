@@ -5,10 +5,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -24,6 +21,7 @@ public class NewMazeController implements Initializable {
     public Button btn_play;
     public Button btn_cancel;
     public ChoiceBox choice_character;
+    public ImageView character_image;
 
     private MazeDisplayer mazeDisplayer;
     private ViewController viewController;
@@ -77,7 +75,13 @@ public class NewMazeController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         choice_character.getItems().removeAll(choice_character.getItems());
-        choice_character.getItems().addAll("Pickle Rick", "Coming Soon");
+        choice_character.getItems().addAll("Pickle Rick", "EyeHole Man");
         choice_character.getSelectionModel().select("Pickle Rick");
+        choice_character.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
+            public void changed(ObservableValue ov, Number value, Number new_value){
+                System.out.println("changed");
+            }
+        });
+        choice_character.setTooltip(new Tooltip("Select your character"));
     }
 }

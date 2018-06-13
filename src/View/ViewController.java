@@ -122,26 +122,26 @@ public class ViewController implements Observer, IView {
         int characterGoalRow = viewModel.getCharacterGoalPositionRow();
         int characterGoalColumn = viewModel.getCharacterGoalPositionColumn();
         mazeDisplayer.setCharacterGoalPosition(characterGoalRow, characterGoalColumn);
-        btn_generateMaze.setDisable(false);
+//        btn_generateMaze.setDisable(false);
     }
 
-    public void generateMaze() {
-        try {
-//            mazeDisplayer.setMaze(null);
-            mazeDisplayer.setFinished(false);
-            int height = Integer.valueOf(txtfld_rowsNum.getText());
-            int width = Integer.valueOf(txtfld_columnsNum.getText());
-            if (height <= 1 || width <= 1) {
-                showAlert("Error", "Wrong Input", "Height and width should be greater than 1");
-            } else {
-                btn_solveMaze.setDisable(false);
-                btn_generateMaze.setDisable(true);
-                viewModel.generateMaze(width, height);
-            }
-        } catch (Exception e) {
-            showAlert("Error", "Wrong Input", "Check input parameters");
-        }
-    }
+//    public void generateMaze() {
+//        try {
+////            mazeDisplayer.setMaze(null);
+//            mazeDisplayer.setFinished(false);
+//            int height = Integer.valueOf(txtfld_rowsNum.getText());
+//            int width = Integer.valueOf(txtfld_columnsNum.getText());
+//            if (height <= 1 || width <= 1) {
+//                showAlert("Error", "Wrong Input", "Height and width should be greater than 1");
+//            } else {
+//                btn_solveMaze.setDisable(false);
+//                btn_generateMaze.setDisable(true);
+//                viewModel.generateMaze(width, height);
+//            }
+//        } catch (Exception e) {
+//            showAlert("Error", "Wrong Input", "Check input parameters");
+//        }
+//    }
 
     public void solveMaze(ActionEvent actionEvent) {
         if (!mazeDisplayer.getFinished()) {
@@ -226,9 +226,9 @@ public class ViewController implements Observer, IView {
             stage.setTitle("About");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("About.fxml").openStream());
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+//            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
         } catch (Exception e) {
             actionEvent.consume();
@@ -244,7 +244,7 @@ public class ViewController implements Observer, IView {
             Stage stage = new Stage();
             stage.setTitle("Game Rules");
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("GameRules.fxml").openStream());
+            Parent root = fxmlLoader.load(getClass().getResource("Help.fxml").openStream());
             Scene scene = new Scene(root, 400, 400);
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
