@@ -79,9 +79,17 @@ public class NewMazeController implements Initializable {
         choice_character.getSelectionModel().select("Pickle Rick");
         choice_character.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
             public void changed(ObservableValue ov, Number value, Number new_value){
+//                setCharacter();
                 System.out.println("changed");
             }
         });
         choice_character.setTooltip(new Tooltip("Select your character"));
     }
+//
+//    public void setCharacter(){
+//        String newCharacter = (String)choice_character.getValue();
+//        mazeDisplayer.setImageFileNameCharacter("Resources/Characters/"+ newCharacter+ ".png");
+//    }
+
+
 }
