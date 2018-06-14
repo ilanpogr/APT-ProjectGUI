@@ -43,7 +43,17 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-             <MazeDisplayer fx:id="mazeDisplayer" height="642" imageFileNameCharacter="src/View/Resources/Characters/Pickle Rick.png" imageFileNameGoal="src/View/Resources/Images/nidle.png" imageFileNameSolution="src/View/Resources/Images/morty.png" imageFileNameWall="src/View/Resources/Images/tree.png" imageFileStartPoint="src/View/Resources/Images/start.png" onMouseDragged="#mouseMovement" width="800.0" />
+             <MazeDisplayer fx:id="mazeDisplayer" onMouseDragged="#mouseMovement">
+                 <width>800.0</width>
+                 <height>642</height>
+                 <imageFileEnding>src/View/Resources/Images/ratSuitPickleRick.png</imageFileEnding>
+                 <imageFileBackground>src/View/Resources/Images/grass.jpg</imageFileBackground>
+                 <imageFileNameGoal>src/View/Resources/Images/nidle.png</imageFileNameGoal>
+                 <imageFileNameWall>src/View/Resources/Images/tree.png</imageFileNameWall>
+                 <imageFileNameSolution>src/View/Resources/Images/morty.png</imageFileNameSolution>
+                 <imageFileNameCharacter>src/View/Resources/Characters/Pickle Rick.png</imageFileNameCharacter>
+                 <imageFileStartPoint>src/View/Resources/Images/start.png</imageFileStartPoint>
+             </MazeDisplayer>
          </children></Pane>
    </center>
    <bottom>

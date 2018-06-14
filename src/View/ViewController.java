@@ -100,6 +100,7 @@ public class ViewController implements Observer, IView, Initializable {
             path = new File("src/View/Resources/Sounds/WubaDubaLubLub.mp3").getAbsolutePath();
         else
             path = new File("src/View/Resources/Sounds/WubaDubaLubLub.mp3").getAbsolutePath();
+        mazeDisplayer.drawEnding();
         Media sound = new Media(new File(path).toURI().toString());
         MediaPlayer player = new MediaPlayer(sound);
         player.play();
@@ -224,6 +225,11 @@ public class ViewController implements Observer, IView, Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("About.fxml").openStream());
             Scene scene = new Scene(root);
+            String path = new File("src/View/Resources/Sounds/original-morty.mp3").getAbsolutePath();
+            song = new Media(new File(path).toURI().toString());
+            media = new MediaPlayer(song);
+            media.setAutoPlay(true);
+            media.setVolume(0.99);
             stage.setScene(scene);
 //            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();

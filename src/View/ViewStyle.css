@@ -1,8 +1,9 @@
 .root {
-    -fx-background-image: url("Resources/Images/grass.jpg");
+    -fx-background-image: url("Resources/Images/background.png");
     -fx-background-size: cover;
     -fx-border-image-repeat: no-repeat;
 }
+
 
 #btn_solveMaze {
     -fx-text-fill: antiquewhite;
