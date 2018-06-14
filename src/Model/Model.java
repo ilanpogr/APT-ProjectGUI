@@ -124,7 +124,8 @@ public class Model extends Observable implements IModel {
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
-                        maze.setStartPos(characterPositionRow, characterPositionColumn);
+//                        maze.setStartPos(characterPositionRow, characterPositionColumn);
+//                        maze.setStartPos(getCharacterPositionRow(), getCharacterPositionColumn());
                         toServer.writeObject(maze);
                         toServer.flush();
                         mazeSolution = (Solution) fromServer.readObject();
@@ -157,11 +158,11 @@ public class Model extends Observable implements IModel {
         return maze.getGoalPosition().getColumnIndex();
     }
 
-    private int characterStartPositionRow() {
+    private int getCharacterStartPositionRow() {
         return maze.getStartPosition().getRowIndex();
     }
 
-    private int characterStartPositionColumn() {
+    private int getCharacterStartPositionColumn() {
         return maze.getStartPosition().getColumnIndex();
     }
 

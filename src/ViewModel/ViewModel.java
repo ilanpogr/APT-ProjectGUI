@@ -31,13 +31,13 @@ public class ViewModel extends Observable implements Observer {
     public StringProperty characterStartPositionRow = new SimpleStringProperty("1"); //For Binding
     public StringProperty characterStartPositionColumn = new SimpleStringProperty("1"); //For Binding
 
-    public ViewModel(IModel model){
+    public ViewModel(IModel model) {
         this.model = model;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o==model){
+        if (o == model) {
             characterStartPositionRowIndex = model.getStartCharacterPostionRow();
             characterStartPositionRow.set(characterStartPositionRowIndex + "");
             characterStartPositionColumnIndex = model.getStartCharacterPostionColumn();
@@ -51,16 +51,16 @@ public class ViewModel extends Observable implements Observer {
             characterGoalPositionColumnIndex = getCharacterGoalPositionColumn();
             characterGoalPositionColumn.set(characterPositionColumnIndex + "");
 //            setChanged();
-            if(o==model){
-                if(arg.equals("mazeGenerator") || arg.equals("movement")){
+            if (o == model) {
+                if (arg.equals("mazeGenerator") || arg.equals("movement")) {
                     setChanged();
                     notifyObservers("mazeGenerator");
                 }
-                if(arg.equals("movement and endGame")){
+                if (arg.equals("movement and endGame")) {
                     setChanged();
                     notifyObservers("movement and endGame");
                 }
-                if(arg.equals("solution")){
+                if (arg.equals("solution")) {
                     setChanged();
                     notifyObservers("solution");
                 }
@@ -69,19 +69,19 @@ public class ViewModel extends Observable implements Observer {
         }
     }
 
-    public void generateMaze(int width, int height){
+    public void generateMaze(int width, int height) {
         model.generateMaze(width, height);
     }
 
-    public void solveMaze(){
+    public void solveMaze() {
         model.solveMaze();
     }
 
-    public Solution getMazeSolution(){
+    public Solution getMazeSolution() {
         return model.getMazeSolution();
     }
 
-    public void moveCharacter(KeyCode movement){
+    public void moveCharacter(KeyCode movement) {
         model.moveCharacter(movement);
     }
 
@@ -104,16 +104,22 @@ public class ViewModel extends Observable implements Observer {
     public int getCharacterGoalPositionColumn() {
         return model.getGoalCharacterPostionColumn();
     }
+
     public int getCharacterStartPositionColumn() {
         return model.getStartCharacterPostionColumn();
     }
+
     public int getCharacterStartPositionRow() {
         return model.getStartCharacterPostionRow();
     }
+
+
 
     public void saveMaze() {
         model.saveMaze();
     }
 
-    public void loadGame(File file){ model.loadMaze(file);}
+    public void loadGame(File file) {
+        model.loadMaze(file);
+    }
 }

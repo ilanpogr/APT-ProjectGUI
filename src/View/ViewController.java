@@ -3,6 +3,7 @@ package View;
 import ViewModel.ViewModel;
 import algorithms.search.Solution;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -231,13 +232,13 @@ public class ViewController implements Observer, IView, Initializable {
 
     public void volumeSwitch(ActionEvent actionEvent) {
         if (speakerImage.isSelected()){
-//            media.setVolume(0);
+            media.setVolume(0);
             Image image = new Image(getClass().getResourceAsStream("Resources/Images/mute.png"));
             speakerImage.setGraphic(new ImageView(image));
 //            speakerImage.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("src/View/Resources/Images/speakerOn.png"))));
         }
         else {
-//            media.setVolume(volume);
+            media.setVolume(volume);
             Image image = new Image(getClass().getResourceAsStream("Resources/Images/speakerOn.png"));
             speakerImage.setGraphic(new ImageView(image));
         }
@@ -275,7 +276,7 @@ public class ViewController implements Observer, IView, Initializable {
         FileChooser fc = new FileChooser();
         fc.setTitle("Load Maze");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("dat files", "*.dat"));
-        fc.setInitialDirectory(new File("src/View/resources/savedGames"));
+        fc.setInitialDirectory(new File("src/View/Resources/savedGames"));
         //showing the file chooser
         File file = fc.showOpenDialog(null);
 
@@ -383,6 +384,20 @@ public class ViewController implements Observer, IView, Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Image image = new Image(getClass().getResourceAsStream("Resources/Images/speakerOn.png"));
         speakerImage.setGraphic(new ImageView(image));
+
+        String path = new File("src/View/Resources/Sounds/Puzzle-Game.mp3").getAbsolutePath();
+        song = new Media(new File(path).toURI().toString());
+        media = new MediaPlayer(song);
+        media.setAutoPlay(true);
+        media.setVolume(0.3);
+        volumeSlider.setValue(media.getVolume() * 100);
+        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(javafx.beans.Observable observable) {
+                media.setVolume(volumeSlider.getValue() / 100);
+                volume=volumeSlider.getValue();
+            }
+        });
     }
 
     //endregion
