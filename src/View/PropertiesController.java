@@ -29,9 +29,10 @@ public class PropertiesController implements Initializable {
             mazeGeneretorAlgorithm.setWrapText(true);
             solvingAlgorithm.setWrapText(true);
             mazeGeneretorAlgorithm.setText(prop.getProperty("Generate Maze Algorithm"));
+            mazeGeneretorAlgorithm.setText("MyMazeGenerator");
             System.out.println(mazeGeneretorAlgorithm.getText());
             solvingAlgorithm.setText(prop.getProperty("Search Algorithm"));
-            System.out.println(solvingAlgorithm.getText());
+            solvingAlgorithm.setText("BreadthFirstSearch");
 
         } catch (IOException ex) {
             ex.printStackTrace();

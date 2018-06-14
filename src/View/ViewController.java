@@ -294,7 +294,7 @@ public class ViewController implements Observer, IView {
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("NewMaze.fxml").openStream());
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+//            scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
             NewMazeController newMazeController = fxmlLoader.getController();
             newMazeController.setStage(stage);
@@ -358,7 +358,7 @@ public class ViewController implements Observer, IView {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("Properties.fxml").openStream());
         Scene scene = new Scene(root, 400, 370);
-        scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+//        scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
         stage.setScene(scene);
         PropertiesController propertiesViewController = fxmlLoader.getController();
         propertiesViewController.setStage(stage);

@@ -33,9 +33,9 @@
             <font>
                 <Font size="15.0" />
             </font></Label>
-        <Label fx:id="solvingAlgorithm" prefHeight="19.0" prefWidth="270.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+        <Label fx:id="solvingAlgorithm" alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="270.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
             <font>
-                <Font name="System Bold" size="15.0" />
+                <Font size="15.0" />
             </font></Label>
     </children>
 </GridPane>
