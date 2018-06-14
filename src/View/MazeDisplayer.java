@@ -127,6 +127,7 @@ public class MazeDisplayer extends Canvas {
 
             try {
                 Image solutionImage = new Image(new FileInputStream(ImageFileNameSolution.get()));
+                Image characterImage = new Image(new FileInputStream(ImageFileNameCharacter.get()));
 
                 GraphicsContext gc = getGraphicsContext2D();
 
@@ -136,7 +137,7 @@ public class MazeDisplayer extends Canvas {
                     gc.drawImage(solutionImage, ((MazeState) solutionPath.get(i)).getPosition().getColumnIndex() * cellWidth, ((MazeState) solutionPath.get(i)).getPosition().getRowIndex() * cellHeight, cellWidth, cellHeight);
 
                 }
-
+                gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
             } catch (FileNotFoundException e) {
                 //e.printStackTrace();
             }
