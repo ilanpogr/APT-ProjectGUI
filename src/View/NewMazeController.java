@@ -75,7 +75,7 @@ public class NewMazeController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         choice_character.getItems().removeAll(choice_character.getItems());
-        choice_character.getItems().addAll("Pickle Rick", "EyeHole Man");
+        choice_character.getItems().addAll("Pickle Rick", "Pickle Rick", "Pickle Rick", "Pickle Rick", "Pickle Rick");
         choice_character.getSelectionModel().select("Pickle Rick");
         choice_character.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
             public void changed(ObservableValue ov, Number value, Number new_value){

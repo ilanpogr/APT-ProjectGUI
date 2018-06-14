@@ -17,10 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -61,6 +58,9 @@ public class ViewController implements Observer, IView, Initializable {
     private Media song;
     private MediaPlayer media;
     private double volume;
+
+    private double mazeDispX;
+    private double mazeDispY;
 
     public void setViewModel(ViewModel viewModel) {
         this.viewModel = viewModel;
@@ -201,7 +201,8 @@ public class ViewController implements Observer, IView, Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
                 root.setPrefWidth(newSceneWidth.doubleValue());
-                mazeDisplayer.setWidth(newSceneWidth.doubleValue());
+                mazeDispX = newSceneWidth.doubleValue();
+                mazeDisplayer.setWidth(mazeDispX);
                 mazeDisplayer.redraw();
             }
         });
@@ -209,7 +210,8 @@ public class ViewController implements Observer, IView, Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
                 root.setPrefHeight(newSceneHeight.doubleValue());
-                mazeDisplayer.setHeight(newSceneHeight.doubleValue() - root.getTop().getLayoutBounds().getHeight() - root.getBottom().getLayoutBounds().getHeight());
+                mazeDispY = newSceneHeight.doubleValue() - root.getTop().getLayoutBounds().getHeight() - root.getBottom().getLayoutBounds().getHeight();
+                mazeDisplayer.setHeight(mazeDispY);
                 mazeDisplayer.redraw();
             }
         });
@@ -364,6 +366,7 @@ public class ViewController implements Observer, IView, Initializable {
         }
     }
 
+
     public void configurations(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         stage.setTitle("Properties");
@@ -385,19 +388,19 @@ public class ViewController implements Observer, IView, Initializable {
         Image image = new Image(getClass().getResourceAsStream("Resources/Images/speakerOn.png"));
         speakerImage.setGraphic(new ImageView(image));
 
-        String path = new File("src/View/Resources/Sounds/Puzzle-Game.mp3").getAbsolutePath();
-        song = new Media(new File(path).toURI().toString());
-        media = new MediaPlayer(song);
-        media.setAutoPlay(true);
-        media.setVolume(0.3);
-        volumeSlider.setValue(media.getVolume() * 100);
-        volumeSlider.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(javafx.beans.Observable observable) {
-                media.setVolume(volumeSlider.getValue() / 100);
-                volume=volumeSlider.getValue();
-            }
-        });
+//        String path = new File("src/View/Resources/Sounds/Puzzle-Game.mp3").getAbsolutePath();
+//        song = new Media(new File(path).toURI().toString());
+//        media = new MediaPlayer(song);
+//        media.setAutoPlay(true);
+//        media.setVolume(0.3);
+//        volumeSlider.setValue(media.getVolume() * 100);
+//        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+//            @Override
+//            public void invalidated(javafx.beans.Observable observable) {
+//                media.setVolume(volumeSlider.getValue() / 100);
+//                volume=volumeSlider.getValue();
+//            }
+//        });
     }
 
     //endregion

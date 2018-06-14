@@ -31,25 +31,31 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Maze Rows:" GridPane.rowIndex="3" />
-            <Label text="Maze Columns:" GridPane.rowIndex="4" />
-            <TextField fx:id="txt_columns" alignment="CENTER" text="20" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="txt_rows" alignment="CENTER" text="20" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button fx:id="btn_play" mnemonicParsing="false" onAction="#generateMaze" text="PLAY" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Label text="Maze Rows:" GridPane.columnSpan="2" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin></Label>
+            <Label text="Maze Columns:" GridPane.columnSpan="2" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin></Label>
+            <TextField fx:id="txt_columns" alignment="CENTER" text="20" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <TextField fx:id="txt_rows" alignment="CENTER" text="20" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Button fx:id="btn_play" mnemonicParsing="false" onAction="#generateMaze" text="PLAY" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="25.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="btn_cancel" mnemonicParsing="false" onAction="#cancel" text="Cancel" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="5">
+            <Button fx:id="btn_cancel" mnemonicParsing="false" onAction="#cancel" text="Cancel" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="6">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                <GridPane.margin>
-                  <Insets left="20.0" />
+                  <Insets left="10.0" />
                </GridPane.margin>
             </Button>
-            <Label text="Character" GridPane.rowIndex="1" />
-            <ChoiceBox fx:id="choice_character" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+            <Label text="Character" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="choice_character" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1" />
             <ImageView fx:id="character_image" fitHeight="138.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
          </children>
       </GridPane>
