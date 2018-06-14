@@ -94,15 +94,15 @@ public class ViewController implements Observer, IView, Initializable {
     }
 
     private void finished() {
-//        song.setVolume(0);
-//        String path;
-//        if (Math.random() < 0.5)
-//            path = new File("src/View/resources/Music/Finding_Nemo-win1.mp3").getAbsolutePath();
-//        else
-//            path = new File("src/View/resources/Music/Finding_Nemo-win2.mp3").getAbsolutePath();
-//        Media sound = new Media(new File(path).toURI().toString());
-//        MediaPlayer player = new MediaPlayer(sound);
-//        player.play();
+        media.setVolume(0);
+        String path;
+        if (Math.random() < 0.5)
+            path = new File("src/View/Resources/Sounds/WubaDubaLubLub.mp3").getAbsolutePath();
+        else
+            path = new File("src/View/Resources/Sounds/WubaDubaLubLub.mp3").getAbsolutePath();
+        Media sound = new Media(new File(path).toURI().toString());
+        MediaPlayer player = new MediaPlayer(sound);
+        player.play();
     }
 
     @Override
@@ -237,7 +237,6 @@ public class ViewController implements Observer, IView, Initializable {
             media.setVolume(0);
             Image image = new Image(getClass().getResourceAsStream("Resources/Images/mute.png"));
             speakerImage.setGraphic(new ImageView(image));
-//            speakerImage.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("src/View/Resources/Images/speakerOn.png"))));
         }
         else {
             media.setVolume(volume);
@@ -388,19 +387,19 @@ public class ViewController implements Observer, IView, Initializable {
         Image image = new Image(getClass().getResourceAsStream("Resources/Images/speakerOn.png"));
         speakerImage.setGraphic(new ImageView(image));
 
-//        String path = new File("src/View/Resources/Sounds/Puzzle-Game.mp3").getAbsolutePath();
-//        song = new Media(new File(path).toURI().toString());
-//        media = new MediaPlayer(song);
-//        media.setAutoPlay(true);
-//        media.setVolume(0.3);
-//        volumeSlider.setValue(media.getVolume() * 100);
-//        volumeSlider.valueProperty().addListener(new InvalidationListener() {
-//            @Override
-//            public void invalidated(javafx.beans.Observable observable) {
-//                media.setVolume(volumeSlider.getValue() / 100);
-//                volume=volumeSlider.getValue();
-//            }
-//        });
+        String path = new File("src/View/Resources/Sounds/Puzzle-Game.mp3").getAbsolutePath();
+        song = new Media(new File(path).toURI().toString());
+        media = new MediaPlayer(song);
+        media.setAutoPlay(true);
+        media.setVolume(0.3);
+        volumeSlider.setValue(media.getVolume() * 100);
+        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(javafx.beans.Observable observable) {
+                media.setVolume(volumeSlider.getValue() / 100);
+                volume=volumeSlider.getValue();
+            }
+        });
     }
 
     //endregion

@@ -100,8 +100,8 @@ public class MazeDisplayer extends Canvas {
 
                 //Draw Character
                 gc.drawImage(startPointImage,CharacterStratPositionColumn * cellWidth, CharacterStratPositionRow * cellHeight ,cellWidth, cellHeight);
-                gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
                 gc.drawImage(characterGoalImage, characterGoalPositionColumn * cellWidth, characterGoalPositionRow * cellHeight, cellWidth, cellHeight);
+                gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
