@@ -115,6 +115,8 @@ public class MazeDisplayer extends Canvas {
     private StringProperty ImageFileNameCharacter = new SimpleStringProperty();
     private StringProperty ImageFileNameGoal = new SimpleStringProperty();
     private StringProperty ImageFileNameSolution = new SimpleStringProperty();
+    private StringProperty ImageFileSpeakerOn = new SimpleStringProperty();
+    private StringProperty ImageFileSpeakerOff = new SimpleStringProperty();
 
     public void drawSolution(Solution mazeSolution) {
         if (maze != null) {

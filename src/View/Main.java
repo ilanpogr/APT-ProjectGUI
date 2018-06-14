@@ -10,8 +10,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+
+
+
+
 
 import java.util.Optional;
 
@@ -24,7 +30,8 @@ public class Main extends Application {
         ViewModel viewModel = new ViewModel(model);
         model.addObserver(viewModel);
         //--------------
-        primaryStage.setTitle("My Application!");
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("Resources/Images/Doofus Rick.png")));
+        primaryStage.setTitle("Pocket Maze");
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("GameView.fxml").openStream());
         Scene scene = new Scene(root, 800, 700);
@@ -35,6 +42,7 @@ public class Main extends Application {
         view.setResizeEvent(scene);
         view.setViewModel(viewModel);
         viewModel.addObserver(view);
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> view.KeyPressed(event));
         //--------------
         SetStageCloseEvent(primaryStage);
         primaryStage.show();

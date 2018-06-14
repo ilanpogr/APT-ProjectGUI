@@ -14,6 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -26,13 +28,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ViewController implements Observer, IView {
+public class ViewController implements Observer, IView, Initializable {
 
 
     @FXML
@@ -41,22 +44,22 @@ public class ViewController implements Observer, IView {
     public MenuItem loadMenu;
     public MenuItem saveMenu;
     public MenuItem newMenu;
-    public Button speakerImage;
+    public ToggleButton speakerImage;
     public Slider volumeSlider;
     public MenuItem propertiesMenu;
     public MenuItem mnu_About;
     public MenuItem mnu_Help;
     public MenuItem mnu_Close;
     public MazeDisplayer mazeDisplayer;
-    public javafx.scene.control.TextField txtfld_rowsNum;
-    public javafx.scene.control.TextField txtfld_columnsNum;
     public javafx.scene.control.Label lbl_rowsNum;
     public javafx.scene.control.Label lbl_columnsNum;
-    public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
 
-    private MediaPlayer song;
-    private Media media;
+    private String solveCondition = "start";
+
+    private Media song;
+    private MediaPlayer media;
+    private double volume;
 
     public void setViewModel(ViewModel viewModel) {
         this.viewModel = viewModel;
@@ -80,9 +83,6 @@ public class ViewController implements Observer, IView {
             }
             if (arg.equals("mazeGenerator")) {
                 displayMaze(viewModel.getMaze());
-            }
-            if (arg.equals("movement")) {
-
             }
             if (arg.equals("movement and endGame")) {
                 displayMaze(viewModel.getMaze());
@@ -116,26 +116,26 @@ public class ViewController implements Observer, IView {
         int characterGoalRow = viewModel.getCharacterGoalPositionRow();
         int characterGoalColumn = viewModel.getCharacterGoalPositionColumn();
         mazeDisplayer.setCharacterGoalPosition(characterGoalRow, characterGoalColumn);
-        btn_generateMaze.setDisable(false);
+//        btn_generateMaze.setDisable(false);
     }
 
-    public void generateMaze() {
-        try {
-//            mazeDisplayer.setMaze(null);
-            mazeDisplayer.setFinished(false);
-            int height = Integer.valueOf(txtfld_rowsNum.getText());
-            int width = Integer.valueOf(txtfld_columnsNum.getText());
-            if (height <= 1 || width <= 1) {
-                showAlert("Error", "Wrong Input", "Height and width should be greater than 1");
-            } else {
-                btn_solveMaze.setDisable(false);
-                btn_generateMaze.setDisable(true);
-                viewModel.generateMaze(width, height);
-            }
-        } catch (Exception e) {
-            showAlert("Error", "Wrong Input", "Check input parameters");
-        }
-    }
+//    public void generateMaze() {
+//        try {
+////            mazeDisplayer.setMaze(null);
+//            mazeDisplayer.setFinished(false);
+//            int height = Integer.valueOf(txtfld_rowsNum.getText());
+//            int width = Integer.valueOf(txtfld_columnsNum.getText());
+//            if (height <= 1 || width <= 1) {
+//                showAlert("Error", "Wrong Input", "Height and width should be greater than 1");
+//            } else {
+//                btn_solveMaze.setDisable(false);
+//                btn_generateMaze.setDisable(true);
+//                viewModel.generateMaze(width, height);
+//            }
+//        } catch (Exception e) {
+//            showAlert("Error", "Wrong Input", "Check input parameters");
+//        }
+//    }
 
     public void solveMaze(ActionEvent actionEvent) {
         if (!mazeDisplayer.getFinished()) {
@@ -150,7 +150,11 @@ public class ViewController implements Observer, IView {
         }
     }
 
-    private void showAlert(String title, String information, String content) {
+    public void cancel(ActionEvent actionEvent) {
+        actionEvent.consume();
+    }
+
+    public void showAlert(String title, String information, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(information);
@@ -165,12 +169,12 @@ public class ViewController implements Observer, IView {
             if (!mazeDisplayer.getFinished())
                 viewModel.moveCharacter(keyEvent.getCode());
             keyEvent.consume();
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             keyEvent.consume();
         }
     }
-
     //region String Property for Binding
+
     public StringProperty characterPositionRow = new SimpleStringProperty();
 
     public StringProperty characterPositionColumn = new SimpleStringProperty();
@@ -213,23 +217,46 @@ public class ViewController implements Observer, IView {
     public void About(ActionEvent actionEvent) {
         try {
             Stage stage = new Stage();
-            stage.setTitle("AboutController");
+            stage.setTitle("About");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("About.fxml").openStream());
-            Scene scene = new Scene(root, 400, 350);
+            Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+//            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
         } catch (Exception e) {
-
+            actionEvent.consume();
         }
     }
 
     public void volumeSwitch(ActionEvent actionEvent) {
+        if (speakerImage.isSelected()){
+//            media.setVolume(0);
+            Image image = new Image(getClass().getResourceAsStream("Resources/Images/mute.png"));
+            speakerImage.setGraphic(new ImageView(image));
+//            speakerImage.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("src/View/Resources/Images/speakerOn.png"))));
+        }
+        else {
+//            media.setVolume(volume);
+            Image image = new Image(getClass().getResourceAsStream("Resources/Images/speakerOn.png"));
+            speakerImage.setGraphic(new ImageView(image));
+        }
 
     }
 
     public void Help(ActionEvent actionEvent) {
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("Game Rules");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("Help.fxml").openStream());
+            Scene scene = new Scene(root, 400, 400);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+            stage.show();
+        } catch (Exception e) {
+            actionEvent.consume();
+        }
     }
 
     public void CloseGame(ActionEvent actionEvent) {
@@ -271,12 +298,30 @@ public class ViewController implements Observer, IView {
         }
     }
 
-    public void newMaze(ActionEvent actionEvent) {
-        generateMaze();
+    public void newMaze(ActionEvent actionEvent) throws IOException {
+        try{
+            Stage stage = new Stage();
+            stage.setTitle("New Maze");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("NewMaze.fxml").openStream());
+            Scene scene = new Scene(root);
+//            scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+            stage.setScene(scene);
+            NewMazeController newMazeController = fxmlLoader.getController();
+            newMazeController.setStage(stage);
+            newMazeController.setViewController(this);
+            newMazeController.setViewModel(viewModel);
+            newMazeController.setMazeDisplayer(mazeDisplayer);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        }catch (Exception e){
+            actionEvent.consume();
+        }
     }
 
     public void mouseMovement(MouseEvent mouseEvent) {
-        if (mazeDisplayer != null) {
+        try {
+            viewModel.getMaze();
             int mouseX = (int) ((mouseEvent.getX()) / (mazeDisplayer.getWidth() / viewModel.getMaze()[0].length));
             int mouseY = (int) ((mouseEvent.getY()) / (mazeDisplayer.getHeight() / viewModel.getMaze().length));
             if (!mazeDisplayer.getFinished()) {
@@ -293,6 +338,8 @@ public class ViewController implements Observer, IView {
                     viewModel.moveCharacter(KeyCode.RIGHT);
                 }
             }
+        } catch (NullPointerException e) {
+            mouseEvent.consume();
         }
     }
 
@@ -300,25 +347,42 @@ public class ViewController implements Observer, IView {
     public void zoomInOut(ScrollEvent scrollEvent) {
         try {
             viewModel.getMaze();
-            double width = mazeDisplayer.getWidth();
-            double height = mazeDisplayer.getHeight();
             AnimatedZoomOperator zoomOperator = new AnimatedZoomOperator();
             double zoomFactor;
             if (scrollEvent.isControlDown()) {
                 zoomFactor = 1.5;
                 double deltaY = scrollEvent.getDeltaY();
                 if (deltaY < 0) {
-                    zoomFactor = 1/ zoomFactor;
+                    zoomFactor = 1 / zoomFactor;
                 }
-//            mazeDisplayer.setScaleX(mazeDisplayer.getScaleX() * zoomFactor);
-//            mazeDisplayer.setScaleY(mazeDisplayer.getScaleY() * zoomFactor);
                 zoomOperator.zoom(mazeDisplayer, zoomFactor, scrollEvent.getSceneX(), scrollEvent.getSceneY());
                 scrollEvent.consume();
             }
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             scrollEvent.consume();
         }
+    }
 
+    public void configurations(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        stage.setTitle("Properties");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(getClass().getResource("Properties.fxml").openStream());
+        Scene scene = new Scene(root, 400, 370);
+//        scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+        stage.setScene(scene);
+        PropertiesController propertiesViewController = fxmlLoader.getController();
+        propertiesViewController.setStage(stage);
+        if (btn_solveMaze.isDisable())
+            btn_solveMaze.setDisable(false);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.show();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Image image = new Image(getClass().getResourceAsStream("Resources/Images/speakerOn.png"));
+        speakerImage.setGraphic(new ImageView(image));
     }
 
     //endregion
