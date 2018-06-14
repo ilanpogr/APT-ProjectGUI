@@ -396,6 +396,11 @@ public class ViewController implements Observer, IView, Initializable {
         volumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(javafx.beans.Observable observable) {
+                if (speakerImage.isSelected()){
+                    speakerImage.setSelected(false);
+                    Image image = new Image(getClass().getResourceAsStream("Resources/Images/speakerOn.png"));
+                    speakerImage.setGraphic(new ImageView(image));
+                }
                 media.setVolume(volumeSlider.getValue() / 100);
                 volume=volumeSlider.getValue();
             }
