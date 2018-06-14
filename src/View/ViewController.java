@@ -54,15 +54,9 @@ public class ViewController implements Observer, IView {
     public MenuItem mnu_Help;
     public MenuItem mnu_Close;
     public MazeDisplayer mazeDisplayer;
-    public Button btn_cancel;
-    public javafx.scene.control.TextField txtfld_rowsNum;
-    public javafx.scene.control.TextField txtfld_columnsNum;
     public javafx.scene.control.Label lbl_rowsNum;
     public javafx.scene.control.Label lbl_columnsNum;
-    public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
-    public ChoiceBox choice_character;
-    public ImageView image_character;
 
     private MediaPlayer song;
     private Media media;
@@ -356,6 +350,22 @@ public class ViewController implements Observer, IView {
         } catch (NullPointerException e) {
             scrollEvent.consume();
         }
+    }
+
+    public void configurations(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        stage.setTitle("Properties");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(getClass().getResource("Properties.fxml").openStream());
+        Scene scene = new Scene(root, 400, 370);
+        scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+        stage.setScene(scene);
+        PropertiesController propertiesViewController = fxmlLoader.getController();
+        propertiesViewController.setStage(stage);
+        if (btn_solveMaze.isDisable())
+            btn_solveMaze.setDisable(false);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.show();
     }
 
     //endregion

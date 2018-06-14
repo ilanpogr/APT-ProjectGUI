@@ -27,7 +27,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="_Options">
                     <items>
-                        <MenuItem fx:id="propertiesMenu" mnemonicParsing="false" text="Properties..." />
+                        <MenuItem fx:id="propertiesMenu" onAction="#configurations" mnemonicParsing="false" text="Properties..." />
                     </items>
                 </Menu>
             <Menu mnemonicParsing="false" text="_Help">
