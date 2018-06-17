@@ -2,6 +2,9 @@ package View;
 
 import ViewModel.ViewModel;
 import algorithms.search.Solution;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,9 +24,11 @@ import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +43,7 @@ public class ViewController implements Observer, IView, Initializable {
 
     @FXML
     private BorderPane root;
+    public ScrollPane scrollPane;
     private ViewModel viewModel;
     public MenuItem loadMenu;
     public MenuItem saveMenu;
@@ -101,6 +107,9 @@ public class ViewController implements Observer, IView, Initializable {
         MediaPlayer player = new MediaPlayer(sound);
         player.play();
         media.setMute(false);
+        btn_solveMaze.setDisable(true);
+        saveMenu.setDisable(true);
+
     }
 
     @Override
@@ -231,7 +240,7 @@ public class ViewController implements Observer, IView, Initializable {
             media.setAutoPlay(true);
             media.setVolume(0.99);
             stage.setScene(scene);
-//            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
         } catch (Exception e) {
             actionEvent.consume();
@@ -239,12 +248,11 @@ public class ViewController implements Observer, IView, Initializable {
     }
 
     public void volumeSwitch(ActionEvent actionEvent) {
-        if (speakerImage.isSelected()){
+        if (speakerImage.isSelected()) {
             media.setVolume(0);
             Image image = new Image(getClass().getResourceAsStream("Resources/Images/mute.png"));
             speakerImage.setGraphic(new ImageView(image));
-        }
-        else {
+        } else {
             media.setVolume(volume);
             Image image = new Image(getClass().getResourceAsStream("Resources/Images/speakerOn.png"));
             speakerImage.setGraphic(new ImageView(image));
@@ -286,6 +294,7 @@ public class ViewController implements Observer, IView, Initializable {
         fc.setInitialDirectory(new File("src/View/Resources/savedGames"));
         //showing the file chooser
         File file = fc.showOpenDialog(null);
+        mazeDisplayer.setFinished(false);
 
         // checking that a file was
         // chosen by the user
@@ -307,13 +316,13 @@ public class ViewController implements Observer, IView, Initializable {
     }
 
     public void newMaze(ActionEvent actionEvent) throws IOException {
-        try{
+        try {
             Stage stage = new Stage();
             stage.setTitle("New Maze");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("NewMaze.fxml").openStream());
             Scene scene = new Scene(root);
-//            scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("NewMazeStyle.css").toExternalForm());
             stage.setScene(scene);
             NewMazeController newMazeController = fxmlLoader.getController();
             newMazeController.setStage(stage);
@@ -322,7 +331,10 @@ public class ViewController implements Observer, IView, Initializable {
             newMazeController.setMazeDisplayer(mazeDisplayer);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
-        }catch (Exception e){
+            mazeDisplayer.setFinished(false);
+            saveMenu.setDisable(false);
+            btn_solveMaze.setDisable(false);
+        } catch (Exception e) {
             actionEvent.consume();
         }
     }
@@ -397,20 +409,33 @@ public class ViewController implements Observer, IView, Initializable {
         song = new Media(new File(path).toURI().toString());
         media = new MediaPlayer(song);
         media.setAutoPlay(true);
+        media.setCycleCount(MediaPlayer.INDEFINITE);
         media.setVolume(0.3);
+
         volumeSlider.setValue(media.getVolume() * 100);
         volumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(javafx.beans.Observable observable) {
-                if (speakerImage.isSelected()){
+                if (speakerImage.isSelected()) {
                     speakerImage.setSelected(false);
                     Image image = new Image(getClass().getResourceAsStream("Resources/Images/speakerOn.png"));
                     speakerImage.setGraphic(new ImageView(image));
                 }
                 media.setVolume(volumeSlider.getValue() / 100);
-                volume=volumeSlider.getValue();
+                volume = volumeSlider.getValue();
             }
         });
+    }
+
+    public void zoomBack(ActionEvent actionEvent) {
+        Timeline timeline = new Timeline(60);
+        timeline.getKeyFrames().clear();
+        timeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.millis(100), new KeyValue(mazeDisplayer.translateXProperty(),0)),
+                new KeyFrame(Duration.millis(100), new KeyValue(mazeDisplayer.translateYProperty(),0)),
+                new KeyFrame(Duration.millis(100), new KeyValue(mazeDisplayer.scaleXProperty(),1)),
+                new KeyFrame(Duration.millis(100), new KeyValue(mazeDisplayer.scaleYProperty(),1)));
+        timeline.play();
     }
 
     //endregion

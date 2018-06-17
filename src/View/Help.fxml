@@ -10,7 +10,7 @@
     <children>
         <VBox prefHeight="500.0" prefWidth="400.0">
             <children>
-                <Label text="About">
+                <Label text="Game Rules">
                     <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </VBox.margin>

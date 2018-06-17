@@ -25,7 +25,7 @@ public class MazeDisplayer extends Canvas {
     private int characterGoalPositionColumn = 1;
     private int characterStratPositionRow = 1;
     private int characterStratPositionColumn = 1;
-    private String character="EyeHole Man";
+    private String character = "EyeHole Man";
     private int characterDirection = 1;
 
     private boolean finished = false;
@@ -63,7 +63,6 @@ public class MazeDisplayer extends Canvas {
     }
 
 
-
     public int getCharacterPositionRow() {
         return characterPositionRow;
     }
@@ -78,37 +77,17 @@ public class MazeDisplayer extends Canvas {
             double canvasWidth = getWidth();
             double cellHeight = canvasHeight / maze.length;
             double cellWidth = canvasWidth / maze[0].length;
+            cellWidth = Math.min(cellHeight, cellWidth);
+            cellHeight = cellWidth;
 
             try {
+                Image characterGoalImage = new Image(new FileInputStream(new File("src/View/Resources/Images/" + character + " end.png")));
+                Image wallImage = new Image(new FileInputStream(new File("src/View/Resources/Images/" + character + " wall.png")));
+                Image startPointImage = new Image(new FileInputStream("src/View/Resources/Images/" + character + " start.png"));
+                Image background = new Image(new FileInputStream("src/View/Resources/Images/" + character + " ground.jpg"));
 
-//                File file =  new File("src/View/Resources/Characters/"+character+".png");
-//                Image im = new Image(new FileInputStream(file));
-                Image characterGoalImage;// = new Image(new FileInputStream(ImageFileNameGoal.get()));
-                Image wallImage;// = new Image(new FileInputStream(ImageFileNameWall.get()));
-//                Image characterImage = new Image(new FileInputStream(ImageFileNameCharacter.get()));
-
-                Image startPointImage;// = new Image(new FileInputStream(ImageFileStartPoint.get()));
-                Image background;// = new Image(new FileInputStream(ImageFileBackground.get()));
-
-
-                if (character.contains("Pickle")){
-                    characterGoalImage = new Image(new FileInputStream(new File("src/View/Resources/Images/nidle.png")));
-                    wallImage = new Image(new FileInputStream(new File("src/View/Resources/Images/spikes2.png")));
-                    startPointImage = new Image(new FileInputStream("src/View/Resources/Images/start1.png"));
-                    background = new Image(new FileInputStream("src/View/Resources/Images/floor.jpg"));
-                }
-                else {
-                    characterGoalImage = new Image(new FileInputStream(new File("src/View/Resources/Images/portal_gun.png")));
-                    wallImage = new Image(new FileInputStream(new File("src/View/Resources/Images/tree.png")));
-                    startPointImage = new Image(new FileInputStream("src/View/Resources/Images/start1.png"));
-                    background = new Image(new FileInputStream("src/View/Resources/Images/grass.jpg"));
-                }
-
-                characterDirection = characterDirection<2? 2: characterDirection;
-                Image characterImage = new Image(new FileInputStream(new File("src/View/Resources/Characters/"+character+""+characterDirection+".png")));
-
-                
-
+                characterDirection = characterDirection < 2 ? 2 : characterDirection;
+                Image characterImage = new Image(new FileInputStream(new File("src/View/Resources/Characters/" + character + "" + characterDirection + ".png")));
 
 
                 GraphicsContext gc = getGraphicsContext2D();
@@ -119,24 +98,20 @@ public class MazeDisplayer extends Canvas {
                 clear = true;
 
                 //Draw Character
-
-
-
-
+                int x=0,y=0;
                 //Draw Maze
-                for (int i = 0; i < maze.length; i++) {
-                    for (int j = 0; j < maze[i].length; j++) {
-                        if (maze[i][j] == 1) {
-                            gc.drawImage(wallImage, j * cellWidth-(0.2*cellWidth), i * cellHeight-(0.4*cellHeight), cellWidth*1.4, cellHeight*1.4);
+                for (double i =  (canvasHeight / 2 - (maze.length * cellHeight / 2)); x < maze.length; i++,x++) {
+                    y=0;
+                    for (double j =  (canvasWidth / 2 - (maze[x].length * cellWidth / 2)); y < maze[x].length; j++,y++) {
+                        if (maze[x][y] == 1) {
+                            gc.drawImage(wallImage, j * cellWidth - (0.2 * cellWidth), i * cellHeight - (0.4 * cellHeight), cellWidth * 1.4, cellHeight * 1.4);
+                        } else if (characterStratPositionRow == x && characterStratPositionColumn == y) {
+                            gc.drawImage(startPointImage, characterStratPositionColumn * cellWidth - (0.2 * cellWidth), characterStratPositionRow * cellHeight - (0.4 * cellHeight), cellWidth * 1.4, cellHeight * 1.4);
+                        } else if (characterGoalPositionRow == x && characterGoalPositionColumn == y) {
+                            gc.drawImage(characterGoalImage, characterGoalPositionColumn * cellWidth - (0.2 * cellWidth), characterGoalPositionRow * cellHeight - (0.4 * cellHeight), cellWidth * 1.4, cellHeight * 1.4);
                         }
-                        else if (characterStratPositionRow ==i && characterStratPositionColumn ==j){
-                            gc.drawImage(startPointImage, characterStratPositionColumn * cellWidth-(0.2*cellWidth), characterStratPositionRow * cellHeight -(0.4*cellHeight),cellWidth*1.4, cellHeight*1.4);
-                        }
-                        else if (characterGoalPositionRow==i && characterGoalPositionColumn==j){
-                            gc.drawImage(characterGoalImage, characterGoalPositionColumn * cellWidth-(0.2*cellWidth), characterGoalPositionRow * cellHeight-(0.4*cellHeight), cellWidth*1.4, cellHeight*1.4);
-                        }
-                        if (characterPositionRow==i && characterPositionColumn==j){
-                            gc.drawImage(characterImage, characterPositionColumn * cellWidth-(0.2*cellWidth), characterPositionRow * cellHeight-(0.4*cellHeight), cellWidth*1.4, cellHeight*1.4);
+                        if (characterPositionRow == x && characterPositionColumn == y) {
+                            gc.drawImage(characterImage, characterPositionColumn * cellWidth - (0.2 * cellWidth), characterPositionRow * cellHeight - (0.4 * cellHeight), cellWidth * 1.4, cellHeight * 1.4);
                         }
                     }
                 }
@@ -167,13 +142,14 @@ public class MazeDisplayer extends Canvas {
             try {
 //                Image solutionImage = new Image(new FileInputStream(ImageFileNameSolution.get()));
 
-                Image solutionImage;
-                if (character.contains("Rick")){
-                    solutionImage = new Image(new FileInputStream(new File("src/View/Resources/Images/morty.png")));
-                }
-                else {
-                    solutionImage = new Image(new FileInputStream(new File("src/View/Resources/Images/morty.png")));
-                }
+                Image solutionImage = new Image(new FileInputStream(new File("src/View/Resources/Images/" + character + " solve.png")));
+                ;
+//                if (character.contains("Rick")){
+//                    solutionImage = new Image(new FileInputStream(new File("src/View/Resources/Images/morty.png")));
+//                }
+//                else {
+//                    solutionImage = new Image(new FileInputStream(new File("src/View/Resources/Images/Eyehole Man .png")));
+//                }
 //                Image characterImage = new Image(new FileInputStream(ImageFileNameCharacter.get()));
 //                Image wallImage = new Image(new FileInputStream(ImageFileNameWall.get()));
 
@@ -215,15 +191,21 @@ public class MazeDisplayer extends Canvas {
         this.ImageFileNameWall.set(imageFileNameWall);
     }
 
-    public String getImageFileStartPoint() { return ImageFileStartPoint.get(); }
+    public String getImageFileStartPoint() {
+        return ImageFileStartPoint.get();
+    }
 
-    public void setImageFileStartPoint(String ImageFileStartPoint) { this.ImageFileStartPoint.set(ImageFileStartPoint); }
+    public void setImageFileStartPoint(String ImageFileStartPoint) {
+        this.ImageFileStartPoint.set(ImageFileStartPoint);
+    }
 
     public String getImageFileNameCharacter() {
         return ImageFileNameCharacter.get();
     }
 
-    public void setImageFileNameCharacter(String imageFileNameCharacter) { this.ImageFileNameCharacter.set(imageFileNameCharacter); }
+    public void setImageFileNameCharacter(String imageFileNameCharacter) {
+        this.ImageFileNameCharacter.set(imageFileNameCharacter);
+    }
 
     public String getImageFileNameGoal() {
         return ImageFileNameGoal.get();
@@ -237,7 +219,9 @@ public class MazeDisplayer extends Canvas {
         return ImageFileNameSolution.get();
     }
 
-    public void setImageFileNameSolution(String imageFileNameSolution) { this.ImageFileNameSolution.set(imageFileNameSolution); }
+    public void setImageFileNameSolution(String imageFileNameSolution) {
+        this.ImageFileNameSolution.set(imageFileNameSolution);
+    }
 
     public String getImageFileBackground() {
         return ImageFileBackground.get();
@@ -272,17 +256,17 @@ public class MazeDisplayer extends Canvas {
 //                mediaPlayer.setAutoPlay(true);
 //                return;
 //            }
-            Image ending = new Image(new FileInputStream(new File ("src/View/Resources/Images/"+character+".png")));
-            Image congratz = new Image(new FileInputStream(new File ("src/View/Resources/Images/Congratulations.png")));
+            Image ending = new Image(new FileInputStream(new File("src/View/Resources/Images/" + character + ".png")));
+            Image congratz = new Image(new FileInputStream(new File("src/View/Resources/Images/Congratulations.png")));
 
             GraphicsContext gc = getGraphicsContext2D();
-            double x0 = getWidth()*0.5 - ending.getWidth()*0.5;
-            double y0 = getHeight()- ending.getHeight();
-            double x1 = getWidth()*0.5 - congratz.getWidth()*0.5;
-            double y1 = getHeight()- congratz.getHeight();
+            double x0 = getWidth() * 0.5 - ending.getWidth() * 0.5;
+            double y0 = getHeight() - ending.getHeight();
+            double x1 = getWidth() * 0.5 - congratz.getWidth() * 0.5;
+            double y1 = getHeight() - congratz.getHeight();
 
-            gc.drawImage(ending,x0,y0,ending.getWidth(),ending.getHeight());
-            gc.drawImage(congratz,x1,y1,congratz.getWidth(),congratz.getHeight());
+            gc.drawImage(ending, x0, y0, ending.getWidth(), ending.getHeight());
+            gc.drawImage(congratz, x1, y1, congratz.getWidth(), congratz.getHeight());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

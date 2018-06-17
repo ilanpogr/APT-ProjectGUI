@@ -39,9 +39,9 @@
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin></Label>
-            <TextField fx:id="txt_columns" alignment="CENTER" text="20" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <TextField fx:id="txt_rows" alignment="CENTER" text="20" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Button fx:id="btn_play" mnemonicParsing="false" onAction="#generateMaze" text="PLAY" GridPane.columnIndex="1" GridPane.rowIndex="6">
+             <TextField fx:id="txt_rows" alignment="CENTER" text="10" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+             <TextField fx:id="txt_columns" alignment="CENTER" text="10" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Button fx:id="btn_play" mnemonicParsing="false" onAction="#generateMaze" text="PLAY" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="25.0" />
                </GridPane.margin>
@@ -55,8 +55,11 @@
                </GridPane.margin>
             </Button>
             <Label text="Character" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ImageView fx:id="character_image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.columnSpan="3" />
-            <ChoiceBox fx:id="choice_character" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1" onAction="#chooseCaracter"/>
+            <ImageView fx:id="character_image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.columnSpan="3">
+               <GridPane.margin>
+                  <Insets left="50.0" />
+               </GridPane.margin></ImageView>
+            <ChoiceBox fx:id="choice_character" onAction="#chooseCaracter" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

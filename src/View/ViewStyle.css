@@ -11,13 +11,27 @@
 }
 
 
-#btn_solveMaze {
-    -fx-text-fill: antiquewhite;
-    -fx-font-family: "Arial Narrow";
+#speakerImage {
+    -fx-font-family: "Times New Roman";
     -fx-font-size: 100%;
     -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(dimgrey, seagreen);
+    -fx-background-image: url("Resources/Images/texureButton.jpg");
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
-
+    -fx-max-height: 0%;
+    -fx-max-width: 100%;
+    -fx-border-radius: 50%;
+    -fx-padding: 100%;
 }
 
+#btn_solveMaze {
+    -fx-text-fill: #484724;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 120%;
+    -fx-font-weight: bolder;
+    -fx-background-image: url("Resources/Images/texureButton.jpg");
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+}
+
+#bottom{
+    -fx-background-image: url("Resources/Images/texureBar.jpg");
+}
