@@ -94,16 +94,13 @@ public class ViewController implements Observer, IView, Initializable {
     }
 
     private void finished() {
-        media.setVolume(0);
-        String path;
-        if (Math.random() < 0.5)
-            path = new File("src/View/Resources/Sounds/WubaDubaLubLub.mp3").getAbsolutePath();
-        else
-            path = new File("src/View/Resources/Sounds/WubaDubaLubLub.mp3").getAbsolutePath();
+        media.setMute(true);
+        String path = new File("src/View/Resources/Sounds/WubaDubaLubLub.mp3").getAbsolutePath();
         mazeDisplayer.drawEnding();
         Media sound = new Media(new File(path).toURI().toString());
         MediaPlayer player = new MediaPlayer(sound);
         player.play();
+        media.setMute(false);
     }
 
     @Override
@@ -112,9 +109,11 @@ public class ViewController implements Observer, IView, Initializable {
         int characterPositionRow = viewModel.getCharacterPositionRow();
         int characterPositionColumn = viewModel.getCharacterPositionColumn();
         mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
-        int CharacterStratPositionRow = viewModel.getCharacterStartPositionRow();
-        int CharacterStartPointColumn = viewModel.getCharacterStartPositionColumn();
-        mazeDisplayer.setCharacterStratPosition(CharacterStratPositionRow, CharacterStartPointColumn);
+        int characterStratPositionRow = viewModel.getCharacterStartPositionRow();
+        int characterStartPointColumn = viewModel.getCharacterStartPositionColumn();
+        mazeDisplayer.setCharacterStratPosition(characterStratPositionRow, characterStartPointColumn);
+        int characterLastPosion = viewModel.getCharacterLastPosition();
+        mazeDisplayer.setCharacterDirection(characterLastPosion);
         int characterGoalRow = viewModel.getCharacterGoalPositionRow();
         int characterGoalColumn = viewModel.getCharacterGoalPositionColumn();
         mazeDisplayer.setCharacterGoalPosition(characterGoalRow, characterGoalColumn);
@@ -145,7 +144,7 @@ public class ViewController implements Observer, IView, Initializable {
                 viewModel.getMaze();
                 btn_solveMaze.setDisable(true);
                 viewModel.solveMaze();
-                btn_solveMaze.setDisable(false);
+//                btn_solveMaze.setDisable(false);
             } catch (NullPointerException e) {
                 showAlert("Error", "No maze to solve", "Don't click on every button you see...\nGenerate a maze if you wish to solve");
             }
@@ -171,6 +170,7 @@ public class ViewController implements Observer, IView, Initializable {
             if (!mazeDisplayer.getFinished())
                 viewModel.moveCharacter(keyEvent.getCode());
             keyEvent.consume();
+            btn_solveMaze.setDisable(false);
         } catch (NullPointerException e) {
             keyEvent.consume();
         }

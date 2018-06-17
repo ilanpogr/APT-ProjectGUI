@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -21,12 +22,13 @@ public class NewMazeController implements Initializable {
     public Button btn_play;
     public Button btn_cancel;
     public ChoiceBox choice_character;
-    public ImageView character_image;
+    public javafx.scene.image.ImageView character_image;
 
     private MazeDisplayer mazeDisplayer;
     private ViewController viewController;
     private ViewModel viewModel;
     private Stage stage;
+
 
 
     public void setViewModel(ViewModel viewModel) {
@@ -58,6 +60,7 @@ public class NewMazeController implements Initializable {
                 viewController.btn_solveMaze.setDisable(false);
 //                btn_generateMaze.setDisable(true);
                 mazeDisplayer.setFinished(false);
+                mazeDisplayer.setCharacter(choice_character.getSelectionModel().getSelectedItem().toString());
                 viewModel.generateMaze(rows, cols);
                 stage.close();
             }
@@ -74,8 +77,13 @@ public class NewMazeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            character_image.setImage(new Image(new FileInputStream(new File("src/View/Resources/Characters/Pickle Rick.png"))));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         choice_character.getItems().removeAll(choice_character.getItems());
-        choice_character.getItems().addAll("Pickle Rick", "Pickle Rick", "Pickle Rick", "Pickle Rick", "Pickle Rick");
+        choice_character.getItems().addAll("Pickle Rick", "EyeHole Man","Mr PooppyButtHole");
         choice_character.getSelectionModel().select("Pickle Rick");
         choice_character.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
             public void changed(ObservableValue ov, Number value, Number new_value){
@@ -85,11 +93,28 @@ public class NewMazeController implements Initializable {
         });
         choice_character.setTooltip(new Tooltip("Select your character"));
     }
+
+    public void chooseCaracter(ActionEvent actionEvent) {
+        try {
+            File pic = new File("src/View/Resources/Characters/"+choice_character.getSelectionModel().getSelectedItem().toString()+".png");
+            character_image.setImage(new Image(new FileInputStream(pic)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+//    public void chooseCharacter(ActionEvent actionEvent) {
+//        System.out.println(choice_character.getValue().toString());
+//        if (mazeDisplayer!=null)
+//        mazeDisplayer.setCharacter(choice_character.getSelectionModel().getSelectedItem().toString());
+//    }
 //
 //    public void setCharacter(){
 //        String newCharacter = (String)choice_character.getValue();
 //        mazeDisplayer.setImageFileNameCharacter("Resources/Characters/"+ newCharacter+ ".png");
 //    }
+
+
 
 
 }

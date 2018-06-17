@@ -44,6 +44,8 @@ public class Model extends Observable implements IModel {
     private int characterGoalPositionRow;
     private int characterGoalPositionColumn;
 
+    private int characterLastPosition;
+
     public Model() {
         mazeGeneratingServer = new Server(Port_ServerMazeGenerating, ServerListeningIntervalMS, new ServerStrategyGenerateMaze());
         solveSearchProblemServer = new Server(Port_ServerSearchProblemSolver, ServerListeningIntervalMS, new ServerStrategySolveSearchProblem());
@@ -166,6 +168,7 @@ public class Model extends Observable implements IModel {
         return maze.getStartPosition().getColumnIndex();
     }
 
+
     @Override
     public int[][] getMaze() {
         return maze.getGrid();
@@ -186,26 +189,28 @@ public class Model extends Observable implements IModel {
         switch (movement) {
             case NUMPAD7:
                 if (checkIfCanMoveDiagonal(-1, -1)) {
+                    characterLastPosition = 4;
                     characterPositionRow--;
                     characterPositionColumn--;
                 }
                 break;
             case NUMPAD9:
                 if (checkIfCanMoveDiagonal(1, -1)) {
+                    characterLastPosition = 6;
                     characterPositionRow--;
                     characterPositionColumn++;
-
                 }
                 break;
             case NUMPAD1:
                 if (checkIfCanMoveDiagonal(-1, 1)) {
+                    characterLastPosition = 2;
                     characterPositionRow++;
                     characterPositionColumn--;
-
                 }
                 break;
             case NUMPAD3:
                 if (checkIfCanMoveDiagonal(1, 1)) {
+                    characterLastPosition = 2;
                     characterPositionRow++;
                     characterPositionColumn++;
                 }
@@ -214,6 +219,7 @@ public class Model extends Observable implements IModel {
             case W:
             case NUMPAD8:
                 if (checkIfCanMoveDiagonal(0, -1)) {
+                    characterLastPosition = 8;
                     characterPositionRow--;
                 }
                 break;
@@ -221,6 +227,7 @@ public class Model extends Observable implements IModel {
             case S:
             case NUMPAD2:
                 if (checkIfCanMoveDiagonal(0, 1)) {
+                    characterLastPosition = 2;
                     characterPositionRow++;
                 }
                 break;
@@ -228,6 +235,7 @@ public class Model extends Observable implements IModel {
             case D:
             case NUMPAD6:
                 if (checkIfCanMoveDiagonal(1, 0)) {
+                    characterLastPosition = 6;
                     characterPositionColumn++;
                 }
                 break;
@@ -235,6 +243,7 @@ public class Model extends Observable implements IModel {
             case A:
             case NUMPAD4:
                 if (checkIfCanMoveDiagonal(-1, 0)) {
+                    characterLastPosition = 4;
                     characterPositionColumn--;
                 }
                 break;
@@ -271,6 +280,9 @@ public class Model extends Observable implements IModel {
     public int getStartCharacterPostionRow() {
         return characterStartPositionRow;
     }
+
+    @Override
+    public int getCharacterLastPosition() { return characterLastPosition; }
 
     @Override
     public void saveMaze() {

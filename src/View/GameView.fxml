@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToggleButton?>
@@ -43,17 +44,21 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-             <MazeDisplayer fx:id="mazeDisplayer" onMouseDragged="#mouseMovement">
-                 <width>800.0</width>
-                 <height>642</height>
-                 <imageFileEnding>src/View/Resources/Images/ratSuitPickleRick.png</imageFileEnding>
-                 <imageFileBackground>src/View/Resources/Images/grass.jpg</imageFileBackground>
-                 <imageFileNameGoal>src/View/Resources/Images/nidle.png</imageFileNameGoal>
-                 <imageFileNameWall>src/View/Resources/Images/tree.png</imageFileNameWall>
-                 <imageFileNameSolution>src/View/Resources/Images/morty.png</imageFileNameSolution>
-                 <imageFileNameCharacter>src/View/Resources/Characters/Pickle Rick.png</imageFileNameCharacter>
-                 <imageFileStartPoint>src/View/Resources/Images/start.png</imageFileStartPoint>
-             </MazeDisplayer>
+            <!--<ScrollPane fx:id="scrollPane">-->
+               <!--<content>-->
+                   <MazeDisplayer fx:id="mazeDisplayer" onMouseDragged="#mouseMovement">
+                       <width>800.0</width>
+                       <height>642</height>
+                       <!--<imageFileEnding>src/View/Resources/Images/ratSuitPickleRick.png</imageFileEnding>-->
+                       <!--<imageFileBackground>src/View/Resources/Images/grass.jpg</imageFileBackground>-->
+                       <!--<imageFileNameGoal>src/View/Resources/Images/nidle.png</imageFileNameGoal>-->
+                       <!--<imageFileNameWall>src/View/Resources/Images/tree.png</imageFileNameWall>-->
+                       <!--<imageFileNameSolution>src/View/Resources/Images/morty.png</imageFileNameSolution>-->
+                       <!--<imageFileNameCharacter>src/View/Resources/Characters/Pickle Rick.png</imageFileNameCharacter>-->
+                       <!--<imageFileStartPoint>src/View/Resources/Images/start1.png</imageFileStartPoint>-->
+                   </MazeDisplayer>
+               <!--</content>-->
+            <!--</ScrollPane>-->
          </children></Pane>
    </center>
    <bottom>

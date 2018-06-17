@@ -23,6 +23,7 @@ public class ViewModel extends Observable implements Observer {
     private int characterGoalPositionColumnIndex;
     private int characterStartPositionRowIndex;
     private int characterStartPositionColumnIndex;
+    private int characterLastPositionIndex;
 
     public StringProperty characterPositionRow = new SimpleStringProperty("1"); //For Binding
     public StringProperty characterPositionColumn = new SimpleStringProperty("1"); //For Binding
@@ -30,6 +31,7 @@ public class ViewModel extends Observable implements Observer {
     public StringProperty characterGoalPositionColumn = new SimpleStringProperty("1"); //For Binding
     public StringProperty characterStartPositionRow = new SimpleStringProperty("1"); //For Binding
     public StringProperty characterStartPositionColumn = new SimpleStringProperty("1"); //For Binding
+    public StringProperty characterLastPosition = new SimpleStringProperty("1"); //For Binding
 
     public ViewModel(IModel model) {
         this.model = model;
@@ -50,6 +52,8 @@ public class ViewModel extends Observable implements Observer {
             characterGoalPositionRow.set(characterPositionRowIndex + "");
             characterGoalPositionColumnIndex = getCharacterGoalPositionColumn();
             characterGoalPositionColumn.set(characterPositionColumnIndex + "");
+            characterLastPositionIndex = getCharacterLastPosition();
+            characterLastPosition.set(characterLastPositionIndex + "");
 //            setChanged();
             if (o == model) {
                 if (arg.equals("mazeGenerator") || arg.equals("movement")) {
@@ -113,6 +117,9 @@ public class ViewModel extends Observable implements Observer {
         return model.getStartCharacterPostionRow();
     }
 
+    public int getCharacterLastPosition() {
+        return model.getCharacterLastPosition();
+    }
 
 
     public void saveMaze() {

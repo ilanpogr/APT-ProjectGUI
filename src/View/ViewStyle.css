@@ -4,6 +4,12 @@
     -fx-border-image-repeat: no-repeat;
 }
 
+#mazeDisplayer{
+    -fx-background-image: url("Resources/Images/background.png");
+    -fx-background-size: cover;
+    -fx-border-image-repeat: no-repeat;
+}
+
 
 #btn_solveMaze {
     -fx-text-fill: antiquewhite;

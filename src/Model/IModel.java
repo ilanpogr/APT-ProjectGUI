@@ -36,5 +36,7 @@ public interface IModel {
     void saveMaze();
 
     void loadMaze(File file);
+
+    int getCharacterLastPosition();
 }
 
