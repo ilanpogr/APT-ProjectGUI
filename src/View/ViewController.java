@@ -7,8 +7,6 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -18,13 +16,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -43,6 +41,7 @@ public class ViewController implements Observer, IView, Initializable {
 
     @FXML
     private BorderPane root;
+    public Button btn_zoomBack;
     public ScrollPane scrollPane;
     private ViewModel viewModel;
     public MenuItem loadMenu;
@@ -59,18 +58,12 @@ public class ViewController implements Observer, IView, Initializable {
     public javafx.scene.control.Label lbl_columnsNum;
     public javafx.scene.control.Button btn_solveMaze;
 
-    private String solveCondition = "start";
-
     private Media song;
     private MediaPlayer media;
-    private double volume;
 
-    private double mazeDispX;
-    private double mazeDispY;
 
     public void setViewModel(ViewModel viewModel) {
         this.viewModel = viewModel;
-//        bindProperties(viewModel);
     }
 
     private void bindProperties(ViewModel viewModel) {
@@ -115,6 +108,7 @@ public class ViewController implements Observer, IView, Initializable {
     @Override
     public void displayMaze(int[][] maze) {
         mazeDisplayer.setMaze(maze);
+        scrollPane.setVisible(true);
         int characterPositionRow = viewModel.getCharacterPositionRow();
         int characterPositionColumn = viewModel.getCharacterPositionColumn();
         mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
@@ -126,26 +120,7 @@ public class ViewController implements Observer, IView, Initializable {
         int characterGoalRow = viewModel.getCharacterGoalPositionRow();
         int characterGoalColumn = viewModel.getCharacterGoalPositionColumn();
         mazeDisplayer.setCharacterGoalPosition(characterGoalRow, characterGoalColumn);
-//        btn_generateMaze.setDisable(false);
     }
-
-//    public void generateMaze() {
-//        try {
-////            mazeDisplayer.setMaze(null);
-//            mazeDisplayer.setFinished(false);
-//            int height = Integer.valueOf(txtfld_rowsNum.getText());
-//            int width = Integer.valueOf(txtfld_columnsNum.getText());
-//            if (height <= 1 || width <= 1) {
-//                showAlert("Error", "Wrong Input", "Height and width should be greater than 1");
-//            } else {
-//                btn_solveMaze.setDisable(false);
-//                btn_generateMaze.setDisable(true);
-//                viewModel.generateMaze(width, height);
-//            }
-//        } catch (Exception e) {
-//            showAlert("Error", "Wrong Input", "Check input parameters");
-//        }
-//    }
 
     public void solveMaze(ActionEvent actionEvent) {
         if (!mazeDisplayer.getFinished()) {
@@ -153,15 +128,10 @@ public class ViewController implements Observer, IView, Initializable {
                 viewModel.getMaze();
                 btn_solveMaze.setDisable(true);
                 viewModel.solveMaze();
-//                btn_solveMaze.setDisable(false);
             } catch (NullPointerException e) {
                 showAlert("Error", "No maze to solve", "Don't click on every button you see...\nGenerate a maze if you wish to solve");
             }
         }
-    }
-
-    public void cancel(ActionEvent actionEvent) {
-        actionEvent.consume();
     }
 
     public void showAlert(String title, String information, String content) {
@@ -184,35 +154,13 @@ public class ViewController implements Observer, IView, Initializable {
             keyEvent.consume();
         }
     }
-    //region String Property for Binding
-
-    public StringProperty characterPositionRow = new SimpleStringProperty();
-
-    public StringProperty characterPositionColumn = new SimpleStringProperty();
-
-    public String getCharacterPositionRow() {
-        return characterPositionRow.get();
-    }
-
-    public StringProperty characterPositionRowProperty() {
-        return characterPositionRow;
-    }
-
-    public String getCharacterPositionColumn() {
-        return characterPositionColumn.get();
-    }
-
-    public StringProperty characterPositionColumnProperty() {
-        return characterPositionColumn;
-    }
 
     public void setResizeEvent(Scene scene) {
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
                 root.setPrefWidth(newSceneWidth.doubleValue());
-                mazeDispX = newSceneWidth.doubleValue();
-                mazeDisplayer.setWidth(mazeDispX);
+                mazeDisplayer.setWidth(newSceneWidth.doubleValue());
                 mazeDisplayer.redraw();
             }
         });
@@ -220,8 +168,7 @@ public class ViewController implements Observer, IView, Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
                 root.setPrefHeight(newSceneHeight.doubleValue());
-                mazeDispY = newSceneHeight.doubleValue() - root.getTop().getLayoutBounds().getHeight() - root.getBottom().getLayoutBounds().getHeight();
-                mazeDisplayer.setHeight(mazeDispY);
+                mazeDisplayer.setHeight(newSceneHeight.doubleValue() - root.getTop().getLayoutBounds().getHeight() - root.getBottom().getLayoutBounds().getHeight());
                 mazeDisplayer.redraw();
             }
         });
@@ -249,11 +196,13 @@ public class ViewController implements Observer, IView, Initializable {
 
     public void volumeSwitch(ActionEvent actionEvent) {
         if (speakerImage.isSelected()) {
-            media.setVolume(0);
+            media.setMute(true);
+            speakerImage.setTooltip(new Tooltip("Volume ON"));
             Image image = new Image(getClass().getResourceAsStream("Resources/Images/mute.png"));
             speakerImage.setGraphic(new ImageView(image));
         } else {
-            media.setVolume(volume);
+            media.setMute(false);
+            speakerImage.setTooltip(new Tooltip("Mute"));
             Image image = new Image(getClass().getResourceAsStream("Resources/Images/speakerOn.png"));
             speakerImage.setGraphic(new ImageView(image));
         }
@@ -366,6 +315,9 @@ public class ViewController implements Observer, IView, Initializable {
 
     public void zoomInOut(ScrollEvent scrollEvent) {
         try {
+            btn_zoomBack.setDisable(false);
+            btn_zoomBack.setVisible(true);
+            btn_zoomBack.setEffect(new Glow(1));
             viewModel.getMaze();
             AnimatedZoomOperator zoomOperator = new AnimatedZoomOperator();
             double zoomFactor;
@@ -375,7 +327,7 @@ public class ViewController implements Observer, IView, Initializable {
                 if (deltaY < 0) {
                     zoomFactor = 1 / zoomFactor;
                 }
-                zoomOperator.zoom(mazeDisplayer, zoomFactor, scrollEvent.getSceneX(), scrollEvent.getSceneY());
+                zoomOperator.zoom(scrollPane, zoomFactor, scrollEvent.getSceneX(), scrollEvent.getSceneY());
                 scrollEvent.consume();
             }
         } catch (NullPointerException e) {
@@ -390,7 +342,6 @@ public class ViewController implements Observer, IView, Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("Properties.fxml").openStream());
         Scene scene = new Scene(root, 400, 370);
-//        scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
         stage.setScene(scene);
         PropertiesController propertiesViewController = fxmlLoader.getController();
         propertiesViewController.setStage(stage);
@@ -402,8 +353,14 @@ public class ViewController implements Observer, IView, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        btn_zoomBack.setTooltip(new Tooltip("Resize"));
+        btn_zoomBack.setDisable(true);
+        btn_zoomBack.setVisible(false);
+        scrollPane.setVisible(false);
+        btn_zoomBack.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("Resources/Images/resize.png"))));
         Image image = new Image(getClass().getResourceAsStream("Resources/Images/speakerOn.png"));
         speakerImage.setGraphic(new ImageView(image));
+        speakerImage.setTooltip(new Tooltip("Mute"));
 
         String path = new File("src/View/Resources/Sounds/Puzzle-Game.mp3").getAbsolutePath();
         song = new Media(new File(path).toURI().toString());
@@ -422,22 +379,20 @@ public class ViewController implements Observer, IView, Initializable {
                     speakerImage.setGraphic(new ImageView(image));
                 }
                 media.setVolume(volumeSlider.getValue() / 100);
-                volume = volumeSlider.getValue();
             }
         });
     }
 
     public void zoomBack(ActionEvent actionEvent) {
+        btn_zoomBack.setDisable(true);
         Timeline timeline = new Timeline(60);
         timeline.getKeyFrames().clear();
         timeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.millis(100), new KeyValue(mazeDisplayer.translateXProperty(),0)),
-                new KeyFrame(Duration.millis(100), new KeyValue(mazeDisplayer.translateYProperty(),0)),
-                new KeyFrame(Duration.millis(100), new KeyValue(mazeDisplayer.scaleXProperty(),1)),
-                new KeyFrame(Duration.millis(100), new KeyValue(mazeDisplayer.scaleYProperty(),1)));
+                new KeyFrame(Duration.millis(100), new KeyValue(scrollPane.translateXProperty(), 0)),
+                new KeyFrame(Duration.millis(100), new KeyValue(scrollPane.translateYProperty(), 0)),
+                new KeyFrame(Duration.millis(100), new KeyValue(scrollPane.scaleXProperty(), 1)),
+                new KeyFrame(Duration.millis(100), new KeyValue(scrollPane.scaleYProperty(), 1)));
         timeline.play();
+        btn_zoomBack.setVisible(false);
     }
-
-    //endregion
-
 }

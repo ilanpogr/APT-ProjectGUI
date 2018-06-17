@@ -4,13 +4,8 @@ import IO.MyDecompressorInputStream;
 import Server.*;
 import Client.*;
 import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.Position;
-import algorithms.search.AState;
 import algorithms.search.Solution;
 
-
-import algorithms.mazeGenerators.Maze;
-import com.sun.org.apache.xpath.internal.operations.String;
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 
@@ -21,7 +16,6 @@ import java.util.Observable;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class Model extends Observable implements IModel {
 
@@ -71,12 +65,7 @@ public class Model extends Observable implements IModel {
 
     @Override
     public void generateMaze(int width, int height) {
-        //Generate maze
-//        threadPool.execute(() -> {
         generateServerMaze(width, height);
-//        setChanged();
-//        notifyObservers();
-//        });
     }
 
     private void generateServerMaze(int width, int height) {
@@ -91,7 +80,6 @@ public class Model extends Observable implements IModel {
                         int[] mazeDimensions = new int[]{height, width};
                         toServer.writeObject(mazeDimensions); //send maze dimensions to server
                         toServer.flush();
-//                        Integer byteMazeSize = (Integer)fromServer.readObject();
                         byte[] compressedMaze = (byte[]) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
                         InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
                         byte[] decompressedMaze = new byte[mazeDimensions[0] * mazeDimensions[1] + 12]; //allocating byte[] for the decompressed maze -
@@ -103,7 +91,6 @@ public class Model extends Observable implements IModel {
                         characterStartPositionColumn = maze.getStartPosition().getColumnIndex();
                         characterGoalPositionRow = maze.getGoalPosition().getRowIndex();
                         characterGoalPositionColumn = maze.getGoalPosition().getColumnIndex();
-//                        maze.print();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -118,7 +105,6 @@ public class Model extends Observable implements IModel {
     }
 
     public void solveMaze() {
-        //threadPool.execute(() -> {
         try {
             Client client = new Client(InetAddress.getLocalHost(), Port_ServerSearchProblemSolver, new IClientStrategy() {
                 public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
@@ -127,14 +113,12 @@ public class Model extends Observable implements IModel {
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
                         maze.setStartPos(characterPositionRow, characterPositionColumn);
-//                        maze.setStartPos(getCharacterPositionRow(), getCharacterPositionColumn());
                         toServer.writeObject(maze);
                         toServer.flush();
                         mazeSolution = (Solution) fromServer.readObject();
                     } catch (Exception var10) {
                         var10.printStackTrace();
                     }
-
                 }
             });
             client.communicateWithServer();
@@ -143,7 +127,6 @@ public class Model extends Observable implements IModel {
         }
         setChanged();
         notifyObservers("solution");
-        //});
     }
 
     public Solution getMazeSolution() {
@@ -151,21 +134,8 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
-    public int getGoalCharacterRow() {
-        return maze.getGoalPosition().getRowIndex();
-    }
-
-    @Override
     public int getGoalCharacterColumn() {
         return maze.getGoalPosition().getColumnIndex();
-    }
-
-    private int getCharacterStartPositionRow() {
-        return maze.getStartPosition().getRowIndex();
-    }
-
-    private int getCharacterStartPositionColumn() {
-        return maze.getStartPosition().getColumnIndex();
     }
 
 
@@ -188,29 +158,29 @@ public class Model extends Observable implements IModel {
     public void moveCharacter(KeyCode movement) {
         switch (movement) {
             case NUMPAD7:
+                characterLastPosition = 4;
                 if (checkIfCanMoveDiagonal(-1, -1)) {
-                    characterLastPosition = 4;
                     characterPositionRow--;
                     characterPositionColumn--;
                 }
                 break;
             case NUMPAD9:
+                characterLastPosition = 6;
                 if (checkIfCanMoveDiagonal(1, -1)) {
-                    characterLastPosition = 6;
                     characterPositionRow--;
                     characterPositionColumn++;
                 }
                 break;
             case NUMPAD1:
+                characterLastPosition = 2;
                 if (checkIfCanMoveDiagonal(-1, 1)) {
-                    characterLastPosition = 2;
                     characterPositionRow++;
                     characterPositionColumn--;
                 }
                 break;
             case NUMPAD3:
+                characterLastPosition = 2;
                 if (checkIfCanMoveDiagonal(1, 1)) {
-                    characterLastPosition = 2;
                     characterPositionRow++;
                     characterPositionColumn++;
                 }
@@ -218,32 +188,32 @@ public class Model extends Observable implements IModel {
             case UP:
             case W:
             case NUMPAD8:
+                characterLastPosition = 8;
                 if (checkIfCanMoveDiagonal(0, -1)) {
-                    characterLastPosition = 8;
                     characterPositionRow--;
                 }
                 break;
             case DOWN:
             case S:
             case NUMPAD2:
+                characterLastPosition = 2;
                 if (checkIfCanMoveDiagonal(0, 1)) {
-                    characterLastPosition = 2;
                     characterPositionRow++;
                 }
                 break;
             case RIGHT:
             case D:
             case NUMPAD6:
+                characterLastPosition = 6;
                 if (checkIfCanMoveDiagonal(1, 0)) {
-                    characterLastPosition = 6;
                     characterPositionColumn++;
                 }
                 break;
             case LEFT:
             case A:
             case NUMPAD4:
+                characterLastPosition = 4;
                 if (checkIfCanMoveDiagonal(-1, 0)) {
-                    characterLastPosition = 4;
                     characterPositionColumn--;
                 }
                 break;
@@ -282,6 +252,11 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
+    public int getStartCharacterPostionColumn() {
+        return characterStartPositionColumn;
+    }
+
+    @Override
     public int getCharacterLastPosition() { return characterLastPosition; }
 
     @Override
@@ -295,7 +270,6 @@ public class Model extends Observable implements IModel {
         if (file != null) {
             try {
                 ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file.getAbsoluteFile()));
-                this.maze.setStartPos(getCharacterPositionRow(), getGoalCharacterColumn());
                 out.writeObject(maze);
                 out.flush();
             } catch (IOException e) {
@@ -316,18 +290,11 @@ public class Model extends Observable implements IModel {
             characterGoalPositionRow = maze.getGoalPosition().getRowIndex();
             characterStartPositionColumn = maze.getStartPosition().getColumnIndex();
             characterStartPositionRow = maze.getStartPosition().getRowIndex();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException|ClassNotFoundException e) {
             e.printStackTrace();
         }
         setChanged();
         notifyObservers("mazeGenerator");
     }
 
-
-    @Override
-    public int getStartCharacterPostionColumn() {
-        return characterStartPositionColumn;
-    }
 }

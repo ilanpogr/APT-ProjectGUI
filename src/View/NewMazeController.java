@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -33,7 +32,6 @@ public class NewMazeController implements Initializable {
 
     public void setViewModel(ViewModel viewModel) {
         this.viewModel = viewModel;
-//        bindProperties(viewModel);
     }
 
     public void setStage(Stage stage) {
@@ -51,14 +49,12 @@ public class NewMazeController implements Initializable {
 
     public void generateMaze() {
         try {
-//            mazeDisplayer.setMaze(null);
             int rows = Integer.valueOf(txt_rows.getText());
             int cols = Integer.valueOf(txt_columns.getText());
             if (rows <= 1 || cols <= 1) {
                 viewController.showAlert("Error", "Wrong Input", "Height and width should be greater than 1");
             } else {
                 viewController.btn_solveMaze.setDisable(false);
-//                btn_generateMaze.setDisable(true);
                 mazeDisplayer.setFinished(false);
                 mazeDisplayer.setCharacter(choice_character.getSelectionModel().getSelectedItem().toString());
                 viewModel.generateMaze(rows, cols);
@@ -87,7 +83,6 @@ public class NewMazeController implements Initializable {
         choice_character.getSelectionModel().select("Pickle Rick");
         choice_character.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
             public void changed(ObservableValue ov, Number value, Number new_value){
-//                setCharacter();
                 System.out.println("changed");
             }
         });
@@ -102,19 +97,4 @@ public class NewMazeController implements Initializable {
             e.printStackTrace();
         }
     }
-
-//    public void chooseCharacter(ActionEvent actionEvent) {
-//        System.out.println(choice_character.getValue().toString());
-//        if (mazeDisplayer!=null)
-//        mazeDisplayer.setCharacter(choice_character.getSelectionModel().getSelectedItem().toString());
-//    }
-//
-//    public void setCharacter(){
-//        String newCharacter = (String)choice_character.getValue();
-//        mazeDisplayer.setImageFileNameCharacter("Resources/Characters/"+ newCharacter+ ".png");
-//    }
-
-
-
-
 }

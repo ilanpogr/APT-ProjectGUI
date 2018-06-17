@@ -2,11 +2,8 @@ package ViewModel;
 
 import Model.IModel;
 import algorithms.search.Solution;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 
 import java.io.File;
@@ -54,7 +51,6 @@ public class ViewModel extends Observable implements Observer {
             characterGoalPositionColumn.set(characterPositionColumnIndex + "");
             characterLastPositionIndex = getCharacterLastPosition();
             characterLastPosition.set(characterLastPositionIndex + "");
-//            setChanged();
             if (o == model) {
                 if (arg.equals("mazeGenerator") || arg.equals("movement")) {
                     setChanged();
@@ -69,7 +65,6 @@ public class ViewModel extends Observable implements Observer {
                     notifyObservers("solution");
                 }
             }
-//            notifyObservers();
         }
     }
 

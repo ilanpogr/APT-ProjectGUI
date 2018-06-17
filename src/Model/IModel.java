@@ -21,8 +21,6 @@ public interface IModel {
 
     Solution getMazeSolution();
 
-    int getGoalCharacterRow();
-
     int getGoalCharacterColumn();
 
     int getGoalCharacterPostionRow();

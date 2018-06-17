@@ -1,0 +1,35 @@
+.root {
+    -fx-background-image: url("Resources/Images/newGameBackground.jpg");
+    -fx-background-size: cover;
+    -fx-border-image-repeat: no-repeat;
+}
+
+.label {
+    -fx-font-family: "Times New Roman", Times, serif;
+    -fx-font-size: 120%;
+    -fx-font-weight: bold;
+}
+
+.button{
+    -fx-border-color: transparent;
+    -fx-font-weight: bolder;
+    -fx-font-size: 150%;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-font-family:"Times New Roman", Times, serif;
+}
+
+.button:focused {
+    -fx-border-color: transparent, black;
+    -fx-border-width: 1, 1;
+    -fx-border-style: solid;
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.button:pressed {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+

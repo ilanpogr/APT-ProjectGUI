@@ -10,12 +10,29 @@
     -fx-border-image-repeat: no-repeat;
 }
 
+.tooltip {
+    -fx-background-color: gray;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 100%;
+}
 
 #speakerImage {
     -fx-font-family: "Times New Roman";
     -fx-font-size: 100%;
     -fx-font-weight: bold;
-    -fx-background-image: url("Resources/Images/texureButton.jpg");
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+    -fx-max-height: 0%;
+    -fx-max-width: 100%;
+    -fx-border-radius: 50%;
+    -fx-padding: 100%;
+}
+
+#btn_zoomBack {
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 100%;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
     -fx-max-height: 0%;
     -fx-max-width: 100%;
@@ -31,6 +48,7 @@
     -fx-background-image: url("Resources/Images/texureButton.jpg");
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
+
 
 #bottom{
     -fx-background-image: url("Resources/Images/texureBar.jpg");
