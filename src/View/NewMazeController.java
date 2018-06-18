@@ -4,6 +4,7 @@ import ViewModel.ViewModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -16,11 +17,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class NewMazeController implements Initializable {
+    @FXML
     public TextField txt_columns;
+    @FXML
     public TextField txt_rows;
+    @FXML
     public Button btn_play;
+    @FXML
     public Button btn_cancel;
+    @FXML
     public ChoiceBox choice_character;
+    @FXML
     public javafx.scene.image.ImageView character_image;
 
     private MazeDisplayer mazeDisplayer;
@@ -83,7 +90,7 @@ public class NewMazeController implements Initializable {
         choice_character.getSelectionModel().select("Pickle Rick");
         choice_character.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
             public void changed(ObservableValue ov, Number value, Number new_value){
-                System.out.println("changed");
+
             }
         });
         choice_character.setTooltip(new Tooltip("Select your character"));

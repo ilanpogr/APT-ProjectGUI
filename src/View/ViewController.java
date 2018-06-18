@@ -41,23 +41,34 @@ public class ViewController implements Observer, IView, Initializable {
 
     @FXML
     private BorderPane root;
+    @FXML
     public Button btn_zoomBack;
+    @FXML
     public ScrollPane scrollPane;
-    private ViewModel viewModel;
+    @FXML
     public MenuItem loadMenu;
+    @FXML
     public MenuItem saveMenu;
+    @FXML
     public MenuItem newMenu;
+    @FXML
     public ToggleButton speakerImage;
+    @FXML
     public Slider volumeSlider;
+    @FXML
     public MenuItem propertiesMenu;
+    @FXML
     public MenuItem mnu_About;
+    @FXML
     public MenuItem mnu_Help;
+    @FXML
     public MenuItem mnu_Close;
+    @FXML
     public MazeDisplayer mazeDisplayer;
-    public javafx.scene.control.Label lbl_rowsNum;
-    public javafx.scene.control.Label lbl_columnsNum;
+    @FXML
     public javafx.scene.control.Button btn_solveMaze;
 
+    private ViewModel viewModel;
     private Media song;
     private MediaPlayer media;
 
@@ -66,13 +77,25 @@ public class ViewController implements Observer, IView, Initializable {
         this.viewModel = viewModel;
     }
 
-    private void bindProperties(ViewModel viewModel) {
-        lbl_rowsNum.textProperty().bind(viewModel.characterPositionRow);
-        lbl_columnsNum.textProperty().bind(viewModel.characterPositionColumn);
-    }
-
     private void displaySolvedMaze(Solution mazeSolution) {
         mazeDisplayer.drawSolution(mazeSolution);
+    }
+
+    @Override
+    public void displayMaze(int[][] maze) {
+        mazeDisplayer.setMaze(maze);
+        scrollPane.setVisible(true);
+        int characterPositionRow = viewModel.getCharacterPositionRow();
+        int characterPositionColumn = viewModel.getCharacterPositionColumn();
+        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
+        int characterStratPositionRow = viewModel.getCharacterStartPositionRow();
+        int characterStartPointColumn = viewModel.getCharacterStartPositionColumn();
+        mazeDisplayer.setCharacterStratPosition(characterStratPositionRow, characterStartPointColumn);
+        int characterLastPosion = viewModel.getCharacterLastPosition();
+        mazeDisplayer.setCharacterDirection(characterLastPosion);
+        int characterGoalRow = viewModel.getCharacterGoalPositionRow();
+        int characterGoalColumn = viewModel.getCharacterGoalPositionColumn();
+        mazeDisplayer.setCharacterGoalPosition(characterGoalRow, characterGoalColumn);
     }
 
     @Override
@@ -94,7 +117,7 @@ public class ViewController implements Observer, IView, Initializable {
 
     private void finished() {
         media.setMute(true);
-        String path = new File("src/View/Resources/Sounds/WubaDubaLubLub.mp3").getAbsolutePath();
+        String path = new File("src/View/Resources/Sounds/WubaDubaLubLub.mp3").getPath();
         mazeDisplayer.drawEnding();
         Media sound = new Media(new File(path).toURI().toString());
         MediaPlayer player = new MediaPlayer(sound);
@@ -103,23 +126,6 @@ public class ViewController implements Observer, IView, Initializable {
         btn_solveMaze.setDisable(true);
         saveMenu.setDisable(true);
 
-    }
-
-    @Override
-    public void displayMaze(int[][] maze) {
-        mazeDisplayer.setMaze(maze);
-        scrollPane.setVisible(true);
-        int characterPositionRow = viewModel.getCharacterPositionRow();
-        int characterPositionColumn = viewModel.getCharacterPositionColumn();
-        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
-        int characterStratPositionRow = viewModel.getCharacterStartPositionRow();
-        int characterStartPointColumn = viewModel.getCharacterStartPositionColumn();
-        mazeDisplayer.setCharacterStratPosition(characterStratPositionRow, characterStartPointColumn);
-        int characterLastPosion = viewModel.getCharacterLastPosition();
-        mazeDisplayer.setCharacterDirection(characterLastPosion);
-        int characterGoalRow = viewModel.getCharacterGoalPositionRow();
-        int characterGoalColumn = viewModel.getCharacterGoalPositionColumn();
-        mazeDisplayer.setCharacterGoalPosition(characterGoalRow, characterGoalColumn);
     }
 
     public void solveMaze(ActionEvent actionEvent) {
@@ -181,7 +187,7 @@ public class ViewController implements Observer, IView, Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("About.fxml").openStream());
             Scene scene = new Scene(root);
-            String path = new File("src/View/Resources/Sounds/original-morty.mp3").getAbsolutePath();
+            String path = new File("src/View/Resources/Sounds/original-morty.mp3").getPath();
             song = new Media(new File(path).toURI().toString());
             media = new MediaPlayer(song);
             media.setAutoPlay(true);
@@ -336,6 +342,19 @@ public class ViewController implements Observer, IView, Initializable {
     }
 
 
+    public void zoomBack(ActionEvent actionEvent) {
+        btn_zoomBack.setDisable(true);
+        Timeline timeline = new Timeline(60);
+        timeline.getKeyFrames().clear();
+        timeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.millis(100), new KeyValue(scrollPane.translateXProperty(), 0)),
+                new KeyFrame(Duration.millis(100), new KeyValue(scrollPane.translateYProperty(), 0)),
+                new KeyFrame(Duration.millis(100), new KeyValue(scrollPane.scaleXProperty(), 1)),
+                new KeyFrame(Duration.millis(100), new KeyValue(scrollPane.scaleYProperty(), 1)));
+        timeline.play();
+        btn_zoomBack.setVisible(false);
+    }
+
     public void configurations(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         stage.setTitle("Properties");
@@ -381,18 +400,5 @@ public class ViewController implements Observer, IView, Initializable {
                 media.setVolume(volumeSlider.getValue() / 100);
             }
         });
-    }
-
-    public void zoomBack(ActionEvent actionEvent) {
-        btn_zoomBack.setDisable(true);
-        Timeline timeline = new Timeline(60);
-        timeline.getKeyFrames().clear();
-        timeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.millis(100), new KeyValue(scrollPane.translateXProperty(), 0)),
-                new KeyFrame(Duration.millis(100), new KeyValue(scrollPane.translateYProperty(), 0)),
-                new KeyFrame(Duration.millis(100), new KeyValue(scrollPane.scaleXProperty(), 1)),
-                new KeyFrame(Duration.millis(100), new KeyValue(scrollPane.scaleYProperty(), 1)));
-        timeline.play();
-        btn_zoomBack.setVisible(false);
     }
 }
