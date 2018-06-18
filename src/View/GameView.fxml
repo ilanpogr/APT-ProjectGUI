@@ -43,7 +43,7 @@
    <center>
       <Pane BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true">
+            <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" >
                <content>
                    <MazeDisplayer fx:id="mazeDisplayer" onMouseDragged="#mouseMovement">
                        <width>800.0</width>

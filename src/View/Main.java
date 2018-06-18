@@ -31,6 +31,7 @@ public class Main extends Application {
         model.addObserver(viewModel);
         //--------------
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("Resources/Images/Doofus Rick.png")));
+
         primaryStage.setTitle("Pocket Maze");
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("GameView.fxml").openStream());

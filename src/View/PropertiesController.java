@@ -26,7 +26,7 @@ public class PropertiesController implements Initializable {
         InputStream input = null;
 
         try {
-            input = new FileInputStream("src/Resources/config.properties");
+            input = new FileInputStream("Resources/config.properties");
             prop.load(input);
 
             mazeGeneretorAlgorithm.setWrapText(true);

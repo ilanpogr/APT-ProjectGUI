@@ -297,6 +297,7 @@ public class ViewController implements Observer, IView, Initializable {
     public void mouseMovement(MouseEvent mouseEvent) {
         try {
             viewModel.getMaze();
+            btn_solveMaze.setDisable(false);
             int mouseX = (int) ((mouseEvent.getX()) / (mazeDisplayer.getWidth() / viewModel.getMaze()[0].length));
             int mouseY = (int) ((mouseEvent.getY()) / (mazeDisplayer.getHeight() / viewModel.getMaze().length));
             if (!mazeDisplayer.getFinished()) {
@@ -313,6 +314,7 @@ public class ViewController implements Observer, IView, Initializable {
                     viewModel.moveCharacter(KeyCode.RIGHT);
                 }
             }
+
         } catch (NullPointerException e) {
             mouseEvent.consume();
         }
